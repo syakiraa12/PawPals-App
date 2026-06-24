@@ -9,12 +9,11 @@ package pawpals;
  * @author Syakira
  */
 public class PawPals {
-
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
-        // TODO code application logic here
+        java.sql.Connection c = Koneksi.getKoneksi();
+        if (c != null) {
+            System.out.println("Koneksi sukses dan siap digunakan!"); 
+           new LoginUser().setVisible(true); 
+        }
     }
-    
 }
