@@ -4,6 +4,11 @@
  */
 package pawpals;
 
+import javax.swing.JOptionPane; 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 /**
  *
  * @author Syakira
@@ -16,7 +21,6 @@ public class LoginUser extends javax.swing.JFrame {
      * Creates new form LoginUser
      */
     public LoginUser() {
-        this.setType(java.awt.Window.Type.UTILITY);
         initComponents();
         this.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
         this.setResizable(false);
@@ -31,7 +35,6 @@ public class LoginUser extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
         jPanel2 = new javax.swing.JPanel();
         image3 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -50,8 +53,7 @@ public class LoginUser extends javax.swing.JFrame {
         image = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1280, 720));
-        getContentPane().add(jScrollPane1, java.awt.BorderLayout.PAGE_START);
+        setTitle("Login User");
 
         jPanel2.setMaximumSize(new java.awt.Dimension(1280, 720));
         jPanel2.setPreferredSize(new java.awt.Dimension(1280, 720));
@@ -167,45 +169,64 @@ public class LoginUser extends javax.swing.JFrame {
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         // TODO add your handling code here:
-        String username = txtUsn.getText().trim();
-        String password = new String(txtPw.getPassword());
+        String username = txtUsn.getText();
+        String password = new String(txtPw.getPassword()); 
 
         if (username.isEmpty() || password.isEmpty()) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Username dan Password tidak boleh kosong!", "Peringatan", javax.swing.JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        if (password.length() != 8) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Password harus 8 karakter!", "Peringatan", javax.swing.JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Username dan Password tidak boleh kosong!");
             return;
         }
 
         try {
-            java.sql.Connection conn = pawpals.Koneksi.getKoneksi();
-            String query = "SELECT * FROM admin WHERE username=? AND password=?";
-            java.sql.PreparedStatement ps = conn.prepareStatement(query);
+            Connection conn = pawpals.Koneksi.getKoneksi();
+            String sqlAdopter = "SELECT * FROM adopter WHERE username = ? AND password = ?"; 
+            PreparedStatement psA = conn.prepareStatement(sqlAdopter);
+            psA.setString(1, username);
+            psA.setString(2, password);
+            ResultSet rsA = psA.executeQuery();
 
-            ps.setString(1, username);
-            ps.setString(2, password);
-
-            java.sql.ResultSet rs = ps.executeQuery();
-
-            if (rs.next()) {
-                javax.swing.JOptionPane.showMessageDialog(this, "Login Berhasil! Selamat Datang di PawPals 🐾", "Sukses", javax.swing.JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                javax.swing.JOptionPane.showMessageDialog(this, "Username atau Password salah!", "Gagal", javax.swing.JOptionPane.ERROR_MESSAGE);
-                txtUsn.setText("");
-                txtPw.setText("");
-                txtUsn.requestFocus();
+            if (rsA.next()) {
+                String idAdopter = rsA.getString("id_adopter"); 
+            
+                JOptionPane.showMessageDialog(this, "Login Berhasil sebagai Adopter!");
+            
+                new Dashboard(idAdopter).setVisible(true);
+                this.dispose();
+            
+                rsA.close();
+                psA.close();
+                conn.close();
+                return; 
             }
+            rsA.close();
+            psA.close();
+            
+            String sqlAdmin = "SELECT * FROM admin WHERE username = ? AND password = ?";
+            PreparedStatement psB = conn.prepareStatement(sqlAdmin);
+            psB.setString(1, username);
+            psB.setString(2, password);
+            ResultSet rsB = psB.executeQuery();
 
-            rs.close();
-            ps.close();
+            if (rsB.next()) {
+                JOptionPane.showMessageDialog(this, "Login Berhasil sebagai Admin!");
+            
+                new Kelola().setVisible(true); 
+                this.dispose();
+            
+                rsB.close();
+                psB.close();
+                conn.close();
+                return;
+            }
+            rsB.close();
+            psB.close();
             conn.close();
 
-        } catch (java.sql.SQLException e) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Koneksi Database Gagal: " + e.getMessage(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
-        }
+            JOptionPane.showMessageDialog(this, "Username atau Password salah!");
+
+        } catch (SQLException e) {
+                JOptionPane.showMessageDialog(this, "Eror Database: " + e.getMessage());
+        } 
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void btnSignUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSignUpActionPerformed
@@ -255,7 +276,6 @@ public class LoginUser extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPasswordField txtPw;
     private javax.swing.JTextField txtUsn;
     // End of variables declaration//GEN-END:variables

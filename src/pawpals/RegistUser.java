@@ -16,8 +16,8 @@ public class RegistUser extends javax.swing.JFrame {
      * Creates new form RegistUser
      */
     public RegistUser() {
-        this.setType(java.awt.Window.Type.UTILITY);
         initComponents();
+        this.setType(java.awt.Window.Type.UTILITY);
         this.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
         this.setResizable(false);
     }
@@ -31,7 +31,6 @@ public class RegistUser extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
         jPanel2 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -55,8 +54,8 @@ public class RegistUser extends javax.swing.JFrame {
         image1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Regist User");
         setMaximumSize(new java.awt.Dimension(1280, 720));
-        getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
         jPanel2.setMaximumSize(new java.awt.Dimension(1280, 720));
         jPanel2.setPreferredSize(new java.awt.Dimension(1280, 720));
@@ -314,7 +313,6 @@ public class RegistUser extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField txtAlamat;
     private javax.swing.JTextField txtName;
     private javax.swing.JTextField txtNoHp;
