@@ -206,7 +206,7 @@ public class PetList extends javax.swing.JFrame {
         imgLog.setCursor(java.awt.Cursor.getPredefinedCursor(java.awt.Cursor.HAND_CURSOR));
         imgLog.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                new LoginUser().setVisible(true);
+                new Dashboard(currentIdAdopter).setVisible(true);
                 dispose();
             }
         });
