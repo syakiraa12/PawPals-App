@@ -46,6 +46,9 @@ public class Transaction extends javax.swing.JFrame {
         
         aksiNavigasi();
         tampilkanRiwayatTransaksi();
+        
+        jPanel1.setPreferredSize(new java.awt.Dimension(1280, 920));
+        jPanel1.revalidate();
     }
 
     public void tampilkanRiwayatTransaksi() {
@@ -116,6 +119,15 @@ public class Transaction extends javax.swing.JFrame {
                 dispose();
             }
         });
+        
+        imgLog.setCursor(java.awt.Cursor.getPredefinedCursor(java.awt.Cursor.HAND_CURSOR));
+        imgLog.addMouseListener(new java.awt.event.MouseAdapter() {
+        @Override
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            new Dashboard(currentIdAdopter).setVisible(true);
+            dispose();
+            }
+        });
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -152,37 +164,34 @@ public class Transaction extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1280, 720));
+        setPreferredSize(new java.awt.Dimension(1280, 810));
 
+        jScrollPane3.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane3.setToolTipText("");
         jScrollPane3.setPreferredSize(new java.awt.Dimension(1280, 810));
-        getContentPane().add(jScrollPane3, java.awt.BorderLayout.PAGE_START);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel1.setPreferredSize(new java.awt.Dimension(1280, 810));
 
         lblDb.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         lblDb.setForeground(new java.awt.Color(0, 0, 255));
         lblDb.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pawpals/image/j.png"))); // NOI18N
         lblDb.setText("Dashboard");
-        jPanel1.add(lblDb, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 50, 180, 50));
 
         jLabel4.setFont(new java.awt.Font("Cooper Black", 1, 36)); // NOI18N
         jLabel4.setText("PawPals");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 40, 170, 70));
 
         lblPetList.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         lblPetList.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pawpals/image/3.png"))); // NOI18N
         lblPetList.setText("Pet list ");
-        jPanel1.add(lblPetList, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 50, 170, 50));
 
         lblTsc.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         lblTsc.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pawpals/image/i.png"))); // NOI18N
         lblTsc.setText("Transaction");
-        jPanel1.add(lblTsc, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 40, 210, 70));
 
         lblIcon.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         lblIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pawpals/image/5.png"))); // NOI18N
         lblIcon.setText("Profile");
-        jPanel1.add(lblIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(1050, 50, 190, -1));
 
         jPanel2.setBackground(new java.awt.Color(0, 0, 255));
 
@@ -215,33 +224,24 @@ public class Transaction extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 140, 1290, 50));
-
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel1.setText("Alasan Mengadopsi");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 260, -1, 30));
 
         txtNamaHewan.setEditable(false);
         txtNamaHewan.addActionListener(this::txtNamaHewanActionPerformed);
-        jPanel1.add(txtNamaHewan, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 210, 200, 30));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel5.setText("Nama Hewan Dipilih");
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 210, -1, 30));
 
         txtNote.setColumns(20);
         txtNote.setRows(5);
         jScrollPane1.setViewportView(txtNote);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 290, 1120, 130));
-
         btnAjukan.setText("Ajukan");
         btnAjukan.addActionListener(this::btnAjukanActionPerformed);
-        jPanel1.add(btnAjukan, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 430, -1, -1));
 
         txtKembali.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         txtKembali.setText("Kembali");
-        jPanel1.add(txtKembali, new org.netbeans.lib.awtextra.AbsoluteConstraints(1130, 430, -1, -1));
 
         jPanel3.setBackground(new java.awt.Color(0, 0, 255));
 
@@ -274,8 +274,6 @@ public class Transaction extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 480, 1290, 50));
-
         tblTsc.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -297,12 +295,88 @@ public class Transaction extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(tblTsc);
 
-        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 560, 800, 170));
-
         imgLog.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pawpals/image/log.png"))); // NOI18N
-        jPanel1.add(imgLog, new org.netbeans.lib.awtextra.AbsoluteConstraints(1150, 730, -1, -1));
 
-        getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(50, 50, 50)
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(60, 60, 60)
+                .addComponent(lblDb, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(70, 70, 70)
+                .addComponent(lblPetList, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
+                .addComponent(lblTsc, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(110, 110, 110)
+                .addComponent(lblIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(80, 80, 80)
+                .addComponent(jLabel5)
+                .addGap(13, 13, 13)
+                .addComponent(txtNamaHewan, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(80, 80, 80)
+                .addComponent(jLabel1))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(80, 80, 80)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1120, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(80, 80, 80)
+                .addComponent(btnAjukan)
+                .addGap(978, 978, 978)
+                .addComponent(txtKembali))
+            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(80, 80, 80)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(imgLog)
+                .addGap(183, 183, 183))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(40, 40, 40)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblTsc, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblDb)
+                            .addComponent(lblPetList)
+                            .addComponent(lblIcon))))
+                .addGap(30, 30, 30)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtNamaHewan, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnAjukan)
+                    .addComponent(txtKembali))
+                .addGap(25, 25, 25)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(imgLog)
+                .addContainerGap())
+        );
+
+        jScrollPane3.setViewportView(jPanel1);
+
+        getContentPane().add(jScrollPane3, java.awt.BorderLayout.PAGE_START);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
