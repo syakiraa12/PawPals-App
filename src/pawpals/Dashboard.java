@@ -103,7 +103,7 @@ public class Dashboard extends javax.swing.JFrame {
         lblTsc.setCursor(java.awt.Cursor.getPredefinedCursor(java.awt.Cursor.HAND_CURSOR));
         lblTsc.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                new Transaction().setVisible(true);
+                new Transaction(currentIdAdopter, 0, "").setVisible(true);
                 dispose();
             }
         });
