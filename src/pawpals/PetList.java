@@ -5,7 +5,6 @@
 package pawpals;
 
 import javax.swing.SwingConstants;
-
 /**
  *
  * @author Syakira
@@ -21,16 +20,34 @@ public class PetList extends javax.swing.JFrame {
     public PetList(String idAdopter) {
         initComponents();
         this.currentIdAdopter = idAdopter;
+
         this.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
         this.setResizable(false);
-        
+
         lblIcon.setHorizontalTextPosition(SwingConstants.LEFT);
         lblIcon.setVerticalTextPosition(SwingConstants.CENTER);
         lblIcon.setIconTextGap(12); 
         lblIcon.setCursor(java.awt.Cursor.getPredefinedCursor(java.awt.Cursor.HAND_CURSOR));
-        
+
         aksiNavigasi();
         cariDanFilterHewan();
+        tblHewan.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                if (evt.getClickCount() == 2) { 
+                    int barisDipilih = tblHewan.getSelectedRow();
+                    if (barisDipilih != -1) {
+                        String namaHewan = tblHewan.getValueAt(barisDipilih, 1).toString();
+                        int idHewan = ambilIdHewan(namaHewan);
+                        
+                        if (idHewan != -1) {
+                            new Transaction(currentIdAdopter, idHewan, namaHewan).setVisible(true);
+                            dispose(); 
+                        }
+                    }
+                }
+            }
+        });
     }
 
     /**
@@ -43,34 +60,38 @@ public class PetList extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
         lblDb = new javax.swing.JLabel();
         lblPetList = new javax.swing.JLabel();
         lblTsc = new javax.swing.JLabel();
-        txtName = new javax.swing.JLabel();
         lblIcon = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        imgLog = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         txtCari = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         cbStatus = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
         cbJenis1 = new javax.swing.JComboBox<>();
+        jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblHewan = new javax.swing.JTable();
-        imgLog = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel4.setFont(new java.awt.Font("Cooper Black", 1, 36)); // NOI18N
+        jLabel4.setText("PawPals");
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 40, 170, 70));
+
         lblDb.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lblDb.setForeground(new java.awt.Color(0, 0, 255));
         lblDb.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pawpals/image/j.png"))); // NOI18N
         lblDb.setText("Dashboard");
         jPanel1.add(lblDb, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 50, 180, 50));
 
         lblPetList.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        lblPetList.setForeground(new java.awt.Color(0, 0, 255));
         lblPetList.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pawpals/image/3.png"))); // NOI18N
         lblPetList.setText("Pet list ");
         jPanel1.add(lblPetList, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 50, 170, 50));
@@ -78,61 +99,71 @@ public class PetList extends javax.swing.JFrame {
         lblTsc.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         lblTsc.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pawpals/image/i.png"))); // NOI18N
         lblTsc.setText("Transaction");
-        jPanel1.add(lblTsc, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 40, 210, 70));
-
-        txtName.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jPanel1.add(txtName, new org.netbeans.lib.awtextra.AbsoluteConstraints(1060, 60, -1, -1));
+        jPanel1.add(lblTsc, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 40, 210, 70));
 
         lblIcon.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         lblIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pawpals/image/5.png"))); // NOI18N
         lblIcon.setText("Profile");
         jPanel1.add(lblIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(1050, 50, 190, -1));
 
-        jLabel4.setFont(new java.awt.Font("Cooper Black", 1, 36)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 153, 153));
-        jLabel4.setText("PawPals");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 170, 80));
+        imgLog.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pawpals/image/log.png"))); // NOI18N
+        jPanel1.add(imgLog, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 630, -1, -1));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Status");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 170, -1, -1));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 180, -1, -1));
 
         txtCari.addActionListener(this::txtCariActionPerformed);
-        jPanel1.add(txtCari, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 170, 210, 30));
+        jPanel1.add(txtCari, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 180, 200, 30));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Cari Hewan");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 170, -1, -1));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 180, -1, -1));
 
         cbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Belum Diadopsi", "Sudah Diadopsi" }));
         cbStatus.addActionListener(this::cbStatusActionPerformed);
-        jPanel1.add(cbStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 170, 160, 30));
+        jPanel1.add(cbStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 180, 140, 30));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Jenis");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 170, -1, -1));
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 180, -1, -1));
 
         cbJenis1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Semua", "Kucing", "Anjing" }));
         cbJenis1.addActionListener(this::cbJenis1ActionPerformed);
-        jPanel1.add(cbJenis1, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 170, 160, 30));
+        jPanel1.add(cbJenis1, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 180, 140, 30));
+
+        jPanel2.setBackground(new java.awt.Color(0, 0, 255));
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1310, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 50, Short.MAX_VALUE)
+        );
+
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 170, 1310, 50));
 
         tblHewan.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Foto", "Nama Hewan", "Jenis Kelamin", "Umur", "Status", "Riwayat Kesehata"
+                "Foto", "Nama Hewan", "Umur", "Jenis Kelamin", "Riwayat Kesehatan"
             }
         ));
         jScrollPane1.setViewportView(tblHewan);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 240, 1150, 370));
-
-        imgLog.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pawpals/image/log.png"))); // NOI18N
-        jPanel1.add(imgLog, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 640, -1, -1));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 230, 1170, 370));
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
@@ -158,10 +189,12 @@ public class PetList extends javax.swing.JFrame {
         lblIcon.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                javax.swing.JOptionPane.showMessageDialog(null, "Membuka profile ID: " + currentIdAdopter);
+            new Profile(currentIdAdopter).setVisible(true); 
+            dispose();
             }
         });
         lblDb.setCursor(java.awt.Cursor.getPredefinedCursor(java.awt.Cursor.HAND_CURSOR));
+
         lblDb.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -177,8 +210,8 @@ public class PetList extends javax.swing.JFrame {
                 dispose();
             }
         });
-    }
-    
+    }                
+
     public void cariDanFilterHewan() {
         String kataKunci = txtCari.getText().trim();
         String jenisDipilih = cbJenis1.getSelectedItem().toString();
@@ -292,6 +325,29 @@ public class PetList extends javax.swing.JFrame {
             javax.swing.JOptionPane.showMessageDialog(this, "Gagal memproses data: " + e.getMessage());
         }
     }
+    
+    private int ambilIdHewan(String namaHewan) {
+        int id = -1;
+        try {
+            java.sql.Connection conn = pawpals.Koneksi.getKoneksi();
+            String sql = "SELECT id_hewan FROM hewan WHERE nama_hewan = ?";
+            java.sql.PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, namaHewan);
+            java.sql.ResultSet rs = ps.executeQuery();
+        
+            if (rs.next()) {
+                id = rs.getInt("id_hewan");
+            }
+            rs.close();
+            ps.close();
+            conn.close();
+        } catch (Exception e) {
+            System.out.println("Gagal mengambil ID hewan: " + e.getMessage());
+        }
+        return id;
+    }
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -322,8 +378,7 @@ public class PetList extends javax.swing.JFrame {
         } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
             logger.log(java.util.logging.Level.SEVERE, null, ex);
         }
-
-        //* Create and display the form */
+        /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> new PetList("").setVisible(true));
     }
 
@@ -336,6 +391,7 @@ public class PetList extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblDb;
     private javax.swing.JLabel lblIcon;
@@ -343,6 +399,5 @@ public class PetList extends javax.swing.JFrame {
     private javax.swing.JLabel lblTsc;
     private javax.swing.JTable tblHewan;
     private javax.swing.JTextField txtCari;
-    private javax.swing.JLabel txtName;
     // End of variables declaration//GEN-END:variables
 }
