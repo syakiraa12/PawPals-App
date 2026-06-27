@@ -37,9 +37,9 @@ public class Profile extends javax.swing.JFrame {
     private void loadProfileData() {
     // Validasi jika id_adopter kosong (belum login / passing parameter salah)
     if (currentIdAdopter == null || currentIdAdopter.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "ID Adopter tidak ditemukan! Silakan login ulang.", "Error", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
+            JOptionPane.showMessageDialog(this, "ID Adopter tidak ditemukan! Silakan login ulang.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
     String query = "SELECT * FROM adopter WHERE id_adopter = ?";
     
@@ -274,6 +274,13 @@ public class Profile extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnDashboardActionPerformed
 
+    private void btnTransaksiActionPerformed(java.awt.event.ActionEvent evt) {                                             
+        // MEMBUKA HALAMAN TRANSAKSI (PETLIST) DENGAN MEMBAWA ID ADOPTER
+        PetList transaksiForm = new PetList(currentIdAdopter);
+        transaksiForm.setVisible(true);
+        this.dispose();
+    }
+    
     private void txtUsnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsnActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtUsnActionPerformed
@@ -314,6 +321,16 @@ public class Profile extends javax.swing.JFrame {
             logger.log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
+            logger.log(java.util.logging.Level.SEVERE, null, ex);
+        }
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> new Profile("").setVisible(true));
