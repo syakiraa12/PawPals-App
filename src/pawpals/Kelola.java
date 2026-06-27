@@ -28,21 +28,268 @@ public class Kelola extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        image2 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        txtProfile = new javax.swing.JLabel();
+        txtKelola = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        cbJenis = new javax.swing.JComboBox<>();
+        btnTambah = new javax.swing.JButton();
+        btnUbah = new javax.swing.JButton();
+        btnHapus = new javax.swing.JButton();
+        btnClear = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        txtDasboard = new javax.swing.JLabel();
+        txtTransaksi = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        txtUmur = new javax.swing.JTextField();
+        txtIdHewan = new javax.swing.JTextField();
+        txtPemeliharaan = new javax.swing.JTextField();
+        txtStatus = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblHewan = new javax.swing.JTable();
+        imgLog = new javax.swing.JLabel();
+        txtPemilik = new javax.swing.JTextField();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(1280, 720));
+
+        jPanel1.setBackground(new java.awt.Color(255, 204, 153));
+        jPanel1.setFont(new java.awt.Font("Arial", 2, 15)); // NOI18N
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel4.setFont(new java.awt.Font("Cooper Black", 1, 30)); // NOI18N
+        jLabel4.setText("PawPals");
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 50, -1, 70));
+
+        image2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pawpals/image/1.png"))); // NOI18N
+        jPanel1.add(image2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, -1, -1));
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pawpals/image/PAWPALS.png"))); // NOI18N
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(769, 0, 486, 139));
+
+        txtProfile.setFont(new java.awt.Font("Arial", 2, 18)); // NOI18N
+        txtProfile.setText("Profile Akun");
+        jPanel1.add(txtProfile, new org.netbeans.lib.awtextra.AbsoluteConstraints(58, 244, -1, -1));
+
+        txtKelola.setFont(new java.awt.Font("Arial", 2, 18)); // NOI18N
+        txtKelola.setText("Kelola Peliharaan");
+        jPanel1.add(txtKelola, new org.netbeans.lib.awtextra.AbsoluteConstraints(58, 336, -1, -1));
+
+        jLabel7.setFont(new java.awt.Font("Serif", 1, 24)); // NOI18N
+        jLabel7.setText("Kelola Data Peliharaan ( Pet List )");
+        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 80, -1, -1));
+
+        jLabel8.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel8.setText("ID Hewan");
+        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 160, -1, -1));
+
+        jLabel9.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        jLabel9.setText("Umur ( Bulan )");
+        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 230, -1, 40));
+
+        jLabel10.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel10.setText("Nama Peliharaan");
+        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 150, -1, 38));
+
+        jLabel11.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel11.setText("Nama Pemilik");
+        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 240, -1, -1));
+
+        jLabel12.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel12.setText("Jenis Hewan");
+        jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 160, -1, -1));
+
+        jLabel13.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel13.setText("Status Kesehatan");
+        jPanel1.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 230, -1, -1));
+
+        cbJenis.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cbJenis.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Semua", "Kucing", "Anjing" }));
+        cbJenis.addActionListener(this::cbJenisActionPerformed);
+        jPanel1.add(cbJenis, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 190, 180, -1));
+
+        btnTambah.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnTambah.setText("Tambah");
+        btnTambah.addActionListener(this::btnTambahActionPerformed);
+        jPanel1.add(btnTambah, new org.netbeans.lib.awtextra.AbsoluteConstraints(837, 359, -1, -1));
+
+        btnUbah.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnUbah.setText("Ubah");
+        btnUbah.addActionListener(this::btnUbahActionPerformed);
+        jPanel1.add(btnUbah, new org.netbeans.lib.awtextra.AbsoluteConstraints(957, 359, -1, -1));
+
+        btnHapus.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnHapus.setText("Hapus");
+        jPanel1.add(btnHapus, new org.netbeans.lib.awtextra.AbsoluteConstraints(1073, 359, -1, -1));
+
+        btnClear.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnClear.setText("Clear");
+        btnClear.addActionListener(this::btnClearActionPerformed);
+        jPanel1.add(btnClear, new org.netbeans.lib.awtextra.AbsoluteConstraints(1183, 359, -1, -1));
+
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+
+        txtDasboard.setFont(new java.awt.Font("Arial", 2, 18)); // NOI18N
+        txtDasboard.setText("Dashboard");
+
+        txtTransaksi.setFont(new java.awt.Font("Arial", 2, 18)); // NOI18N
+        txtTransaksi.setText("Transaksi");
+
+        jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pawpals/image/ajg.png"))); // NOI18N
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(57, 57, 57)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtTransaksi, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtDasboard)))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(37, 37, 37)
+                        .addComponent(jLabel14)))
+                .addContainerGap(83, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(159, 159, 159)
+                .addComponent(txtDasboard)
+                .addGap(237, 237, 237)
+                .addComponent(txtTransaksi)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel14)
+                .addGap(0, 62, Short.MAX_VALUE))
+        );
+
+        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 320, 820));
+
+        txtUmur.setEditable(false);
+        txtUmur.setAutoscrolls(false);
+        txtUmur.setEnabled(false);
+        txtUmur.setFocusable(false);
+        txtUmur.setRequestFocusEnabled(false);
+        txtUmur.setVerifyInputWhenFocusTarget(false);
+        txtUmur.addActionListener(this::txtUmurActionPerformed);
+        jPanel1.add(txtUmur, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 270, 180, 30));
+
+        txtIdHewan.setEditable(false);
+        txtIdHewan.setAutoscrolls(false);
+        txtIdHewan.setEnabled(false);
+        txtIdHewan.setFocusable(false);
+        txtIdHewan.setRequestFocusEnabled(false);
+        txtIdHewan.setVerifyInputWhenFocusTarget(false);
+        jPanel1.add(txtIdHewan, new org.netbeans.lib.awtextra.AbsoluteConstraints(361, 194, 180, 30));
+
+        txtPemeliharaan.setEditable(false);
+        txtPemeliharaan.setAutoscrolls(false);
+        txtPemeliharaan.setEnabled(false);
+        txtPemeliharaan.setFocusable(false);
+        txtPemeliharaan.setRequestFocusEnabled(false);
+        txtPemeliharaan.setVerifyInputWhenFocusTarget(false);
+        txtPemeliharaan.addActionListener(this::txtPemeliharaanActionPerformed);
+        jPanel1.add(txtPemeliharaan, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 190, 180, 30));
+
+        txtStatus.setEditable(false);
+        txtStatus.setAutoscrolls(false);
+        txtStatus.setEnabled(false);
+        txtStatus.setFocusable(false);
+        txtStatus.setRequestFocusEnabled(false);
+        txtStatus.setVerifyInputWhenFocusTarget(false);
+        txtStatus.addActionListener(this::txtStatusActionPerformed);
+        jPanel1.add(txtStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 270, 180, 30));
+
+        tblHewan.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        tblHewan.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Nama Hewan", "Umur", "Jenis Kelamin", "Riwayat Kesehatan"
+            }
+        ));
+        jScrollPane1.setViewportView(tblHewan);
+
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 390, 920, 320));
+
+        imgLog.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pawpals/image/log.png"))); // NOI18N
+        jPanel1.add(imgLog, new org.netbeans.lib.awtextra.AbsoluteConstraints(1190, 740, -1, -1));
+
+        txtPemilik.setEditable(false);
+        txtPemilik.setAutoscrolls(false);
+        txtPemilik.setEnabled(false);
+        txtPemilik.setFocusable(false);
+        txtPemilik.setRequestFocusEnabled(false);
+        txtPemilik.setVerifyInputWhenFocusTarget(false);
+        txtPemilik.addActionListener(this::txtPemilikActionPerformed);
+        jPanel1.add(txtPemilik, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 270, 180, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1281, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void cbJenisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbJenisActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbJenisActionPerformed
+
+    private void btnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnTambahActionPerformed
+
+    private void btnUbahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUbahActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnUbahActionPerformed
+
+    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnClearActionPerformed
+
+    private void txtUmurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUmurActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtUmurActionPerformed
+
+    private void txtStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtStatusActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtStatusActionPerformed
+
+    private void txtPemilikActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPemilikActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPemilikActionPerformed
+
+    private void txtPemeliharaanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPemeliharaanActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPemeliharaanActionPerformed
 
     /**
      * @param args the command line arguments
@@ -70,5 +317,35 @@ public class Kelola extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnClear;
+    private javax.swing.JButton btnHapus;
+    private javax.swing.JButton btnTambah;
+    private javax.swing.JButton btnUbah;
+    private javax.swing.JComboBox<String> cbJenis;
+    private javax.swing.JLabel image2;
+    private javax.swing.JLabel imgLog;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tblHewan;
+    private javax.swing.JLabel txtDasboard;
+    private javax.swing.JTextField txtIdHewan;
+    private javax.swing.JLabel txtKelola;
+    private javax.swing.JTextField txtPemeliharaan;
+    private javax.swing.JTextField txtPemilik;
+    private javax.swing.JLabel txtProfile;
+    private javax.swing.JTextField txtStatus;
+    private javax.swing.JLabel txtTransaksi;
+    private javax.swing.JTextField txtUmur;
     // End of variables declaration//GEN-END:variables
 }
