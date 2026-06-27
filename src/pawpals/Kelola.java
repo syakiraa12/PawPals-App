@@ -3,6 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package pawpals;
+import javax.swing.table.DefaultTableModel;
+import java.sql.*;
 
 /**
  *
@@ -17,11 +19,45 @@ public class Kelola extends javax.swing.JFrame {
      */
 
     public Kelola() {
-    initComponents();
-    loadData(); // Memuat data saat aplikasi pertama dibuka
+   initComponents();
+    loadData();
+tblHewan.addMouseListener(new java.awt.event.MouseAdapter() {
+    public void mouseClicked(java.awt.event.MouseEvent evt) {
+        int row = tblHewan.getSelectedRow();
+        if (row != -1) {
+    
+            txtPemeliharaan.setText(tblHewan.getValueAt(row, 0).toString());
+            txtUmur.setText(tblHewan.getValueAt(row, 1).toString());
+            txtStatus.setText(tblHewan.getValueAt(row, 3).toString());
+        }
+    }
+});
+    // Tambahkan ini agar field bisa diedit
+    txtIdHewan.setEnabled(true);
+    txtPemeliharaan.setEnabled(true);
+    txtUmur.setEnabled(true);
+    txtPemilik.setEnabled(true);
+    txtStatus.setEnabled(true);
 }
 
 private void loadData() {
+    DefaultTableModel model = (DefaultTableModel) tblHewan.getModel();
+    model.setRowCount(0);
+    try {
+        String sql = "SELECT * FROM hewan";
+        Statement st = Koneksi.getKoneksi().createStatement();
+        ResultSet rs = st.executeQuery(sql);
+        while (rs.next()) {
+            model.addRow(new Object[]{
+                rs.getString("nama_peliharaan"), 
+                rs.getInt("umur"), 
+                rs.getString("jenis_hewan"), 
+                rs.getString("status_kesehatan")
+            });
+        }
+    } catch (Exception e) {
+        System.out.println("Error load data: " + e.getMessage());
+    }
 }
 
     /**
@@ -134,6 +170,7 @@ private void loadData() {
 
         btnHapus.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         btnHapus.setText("Hapus");
+        btnHapus.addActionListener(this::btnHapusActionPerformed);
         jPanel1.add(btnHapus, new org.netbeans.lib.awtextra.AbsoluteConstraints(1073, 359, -1, -1));
 
         btnClear.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -270,14 +307,56 @@ private void loadData() {
 
     private void btnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahActionPerformed
         // TODO add your handling code here:
+        try {
+        String sql = "INSERT INTO hewan (nama_peliharaan, jenis_hewan, umur, nama_pemilik, status_kesehatan) VALUES (?, ?, ?, ?, ?)";
+        PreparedStatement ps = Koneksi.getKoneksi().prepareStatement(sql);
+        ps.setString(1, txtPemeliharaan.getText()); // Nama Peliharaan
+        ps.setString(2, cbJenis.getSelectedItem().toString());
+        ps.setInt(3, Integer.parseInt(txtUmur.getText()));
+        ps.setString(4, txtPemilik.getText());
+        ps.setString(5, txtStatus.getText());
+        ps.executeUpdate();
+        loadData(); // Refresh tabel
+        try {
+    int umur = Integer.parseInt(txtUmur.getText());
+    // ... lanjutkan proses insert
+} catch (NumberFormatException e) {
+    javax.swing.JOptionPane.showMessageDialog(this, "Umur harus berupa angka!");
+}
+        javax.swing.JOptionPane.showMessageDialog(this, "Data berhasil ditambah!");
+    } catch (Exception e) {
+        javax.swing.JOptionPane.showMessageDialog(this, "Gagal: " + e.getMessage());
+        
+    }
     }//GEN-LAST:event_btnTambahActionPerformed
 
     private void btnUbahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUbahActionPerformed
         // TODO add your handling code here:
+        try {
+        String sql = "UPDATE hewan SET nama_peliharaan=?, jenis_hewan=?, umur=?, nama_pemilik=?, status_kesehatan=? WHERE id_hewan=?";
+        java.sql.PreparedStatement ps = Koneksi.getKoneksi().prepareStatement(sql);
+        ps.setString(1, txtPemeliharaan.getText());
+        ps.setString(2, cbJenis.getSelectedItem().toString());
+        ps.setString(3, txtUmur.getText());
+        ps.setString(4, txtPemilik.getText());
+        ps.setString(5, txtStatus.getText());
+        ps.setString(6, txtIdHewan.getText()); // Menggunakan ID untuk update
+        ps.executeUpdate();
+        loadData();
+        javax.swing.JOptionPane.showMessageDialog(this, "Data berhasil diubah!");
+    } catch (Exception e) {
+        javax.swing.JOptionPane.showMessageDialog(this, "Gagal ubah: " + e.getMessage());
+    }
     }//GEN-LAST:event_btnUbahActionPerformed
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
         // TODO add your handling code here:
+        txtIdHewan.setText("");
+    txtPemeliharaan.setText("");
+    txtUmur.setText("");
+    txtPemilik.setText("");
+    txtStatus.setText("");
+    cbJenis.setSelectedIndex(0);
     }//GEN-LAST:event_btnClearActionPerformed
 
     private void txtUmurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUmurActionPerformed
@@ -295,6 +374,31 @@ private void loadData() {
     private void txtPemeliharaanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPemeliharaanActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPemeliharaanActionPerformed
+
+    private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
+        // TODO add your handling code here:                                       
+    if (txtIdHewan.getText().equals("")) {
+        javax.swing.JOptionPane.showMessageDialog(this, "Silakan pilih data yang ingin dihapus!");
+        return;
+    }
+
+    int ok = javax.swing.JOptionPane.showConfirmDialog(this, "Apakah Anda yakin ingin menghapus data ini?", "Konfirmasi", javax.swing.JOptionPane.YES_NO_OPTION);
+    
+    if (ok == 0) {
+        try {
+            String sql = "DELETE FROM hewan WHERE id_hewan=?";
+            java.sql.PreparedStatement ps = Koneksi.getKoneksi().prepareStatement(sql);
+            ps.setString(1, txtIdHewan.getText());
+            ps.executeUpdate();
+            
+            loadData();
+            btnClearActionPerformed(evt);
+            javax.swing.JOptionPane.showMessageDialog(this, "Data berhasil dihapus!");
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Gagal hapus: " + e.getMessage());
+            }
+        } 
+    }//GEN-LAST:event_btnHapusActionPerformed
 
     /**
      * @param args the command line arguments
