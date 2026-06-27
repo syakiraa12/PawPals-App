@@ -15,9 +15,14 @@ public class Kelola extends javax.swing.JFrame {
     /**
      * Creates new form Kelola
      */
+
     public Kelola() {
-        initComponents();
-    }
+    initComponents();
+    loadData(); // Memuat data saat aplikasi pertama dibuka
+}
+
+private void loadData() {
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -278,7 +283,7 @@ public class Kelola extends javax.swing.JFrame {
     private void txtUmurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUmurActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtUmurActionPerformed
-
+  
     private void txtStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtStatusActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtStatusActionPerformed
