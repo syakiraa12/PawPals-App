@@ -4,6 +4,12 @@
  */
 package pawpals;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Syakira
@@ -20,10 +26,58 @@ public class Profile extends javax.swing.JFrame {
     public Profile(String idAdopter) {
         initComponents();
         this.currentIdAdopter = idAdopter;
-        
+    
         this.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
         this.setResizable(false);
+    
+           // PANGGIL FUNGSI LOAD DATA DI SINI
+        loadProfileData();
     }
+    
+    private void loadProfileData() {
+    // Validasi jika id_adopter kosong (belum login / passing parameter salah)
+    if (currentIdAdopter == null || currentIdAdopter.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "ID Adopter tidak ditemukan! Silakan login ulang.", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    String query = "SELECT * FROM adopter WHERE id_adopter = ?";
+    
+    try (Connection conn = Koneksi.getKoneksi(); 
+         PreparedStatement ps = conn.prepareStatement(query)) {
+        
+        ps.setString(1, currentIdAdopter);
+        
+        try (ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                // Ambil data dari kolom SQL
+                String nama = rs.getString("nama");
+                String username = rs.getString("username");
+                String noHp = rs.getString("no_hp");
+                String alamat = rs.getString("alamat");
+                
+                // Set data ke komponen GUI Swing
+                txtName.setText(nama);
+                txtUsn.setText(username);
+                txtNomor.setText(noHp);
+                txtAlamat.setText(alamat);
+                
+                // Catatan: Kolom email & tanggal bergabung tidak ada di tabel 'adopter' sql kamu,
+                // jadi sementara dikosongkan atau diisi default text.
+                txtEmail.setText("- (Tidak ada di database)");
+                txtTanggal.setText("- (Tidak ada di database)");
+                
+                // Mengubah label "Admin" di bawah nama menjadi "Adopter" karena ini halaman profil adopter
+                jLabel3.setText("Adopter");
+            } else {
+                JOptionPane.showMessageDialog(this, "Data adopter tidak ditemukan di database.", "Peringatan", JOptionPane.WARNING_MESSAGE);
+            }
+        }
+    } catch (SQLException e) {
+        logger.log(java.util.logging.Level.SEVERE, "Gagal memuat data profil", e);
+        JOptionPane.showMessageDialog(this, "Gagal terhubung ke database: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -34,21 +88,212 @@ public class Profile extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        txtName = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        btnDashboard = new javax.swing.JButton();
+        btnProfile = new javax.swing.JButton();
+        btnTransaksi = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        txtDadi = new javax.swing.JLabel();
+        txtUsn = new javax.swing.JTextField();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        txtEmail = new javax.swing.JTextField();
+        txtNomor = new javax.swing.JTextField();
+        txtTanggal = new javax.swing.JTextField();
+        txtAlamat = new javax.swing.JTextField();
+        imgLog = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(1280, 720));
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pawpals/image/Desain tanpa judul (2).png"))); // NOI18N
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 50, 120, 120));
+
+        txtName.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        txtName.setForeground(new java.awt.Color(47, 64, 80));
+        txtName.setText("name");
+        jPanel1.add(txtName, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 190, 70, 35));
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 2, 13)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(219, 152, 52));
+        jLabel3.setText("Admin");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 230, 40, 20));
+
+        btnDashboard.setText("Dashboard");
+        btnDashboard.addActionListener(this::btnDashboardActionPerformed);
+        jPanel1.add(btnDashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 310, 240, 45));
+
+        btnProfile.setText("Profile Akun");
+        btnProfile.addActionListener(this::btnProfileActionPerformed);
+        jPanel1.add(btnProfile, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 365, 240, 45));
+
+        btnTransaksi.setText("Transaksi");
+        jPanel1.add(btnTransaksi, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 420, 240, 45));
+
+        txtDadi.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        txtDadi.setText("Informasi Data Diri");
+
+        txtUsn.addActionListener(this::txtUsnActionPerformed);
+
+        jPanel3.setBackground(new java.awt.Color(255, 153, 0));
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 863, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 9, Short.MAX_VALUE)
+        );
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel4.setText("Username");
+
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel6.setText("Email Adress");
+
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel7.setText("Nomor Telepon");
+
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel8.setText("Tanggal Bergabung");
+
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel9.setText("Alamat Rumah");
+
+        txtEmail.addActionListener(this::txtEmailActionPerformed);
+
+        txtNomor.addActionListener(this::txtNomorActionPerformed);
+
+        txtTanggal.addActionListener(this::txtTanggalActionPerformed);
+
+        txtAlamat.addActionListener(this::txtAlamatActionPerformed);
+
+        imgLog.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pawpals/image/log.png"))); // NOI18N
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(77, 77, 77)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtDadi)
+                    .addComponent(jLabel8)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(txtNomor, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel6)
+                        .addComponent(txtUsn, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel4)
+                        .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel7))
+                    .addComponent(txtTanggal, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9)
+                    .addComponent(txtAlamat, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(50, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(imgLog)
+                .addGap(76, 76, 76))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(33, 33, 33)
+                .addComponent(txtDadi)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(59, 59, 59)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtUsn, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtNomor, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtTanggal, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtAlamat, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
+                .addComponent(imgLog)
+                .addGap(21, 21, 21))
+        );
+
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, -10, 990, 700));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(100, 100, 100)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(33, 33, 33)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProfileActionPerformed
+        // TODO add your handling code here:
+        loadProfileData();
+    }//GEN-LAST:event_btnProfileActionPerformed
+
+    private void btnDashboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDashboardActionPerformed
+        // TODO add your handling code here:
+        Dashboard dashboardForm = new Dashboard(currentIdAdopter);
+        dashboardForm.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnDashboardActionPerformed
+
+    private void txtUsnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtUsnActionPerformed
+
+    private void txtEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtEmailActionPerformed
+
+    private void txtNomorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNomorActionPerformed
+
+    private void txtTanggalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTanggalActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTanggalActionPerformed
+
+    private void txtAlamatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAlamatActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtAlamatActionPerformed
 
     /**
      * @param args the command line arguments
@@ -76,5 +321,26 @@ public class Profile extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnDashboard;
+    private javax.swing.JButton btnProfile;
+    private javax.swing.JButton btnTransaksi;
+    private javax.swing.JLabel imgLog;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JTextField txtAlamat;
+    private javax.swing.JLabel txtDadi;
+    private javax.swing.JTextField txtEmail;
+    private javax.swing.JLabel txtName;
+    private javax.swing.JTextField txtNomor;
+    private javax.swing.JTextField txtTanggal;
+    private javax.swing.JTextField txtUsn;
     // End of variables declaration//GEN-END:variables
 }
