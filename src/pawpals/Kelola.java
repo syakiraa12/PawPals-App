@@ -354,6 +354,30 @@ public class Kelola extends javax.swing.JFrame {
             ps.setString(6, pathFoto);
         
             ps.executeUpdate();
+            
+            Pet pet;
+            if (cbJenisKelamin.getSelectedItem().toString().equals("Anjing")) {
+            pet = new Dog(
+                txtPemeliharaan1.getText(),
+                Integer.parseInt(txtUmur.getText()),
+                "Anjing",
+                "Golden Retriever");
+            } else {
+                pet = new Cat(
+                    txtPemeliharaan1.getText(),
+                    Integer.parseInt(txtUmur.getText()),
+                    "Kucing",
+                    "Putih");
+            }
+            
+            pet.tampilInfo();
+            if (pet instanceof Dog) {
+                Dog dog = (Dog) pet;
+                dog.makan();
+            } else if (pet instanceof Cat) {
+                Cat cat = (Cat) pet;
+                cat.tidur();
+            }
             loadData();
             btnClearActionPerformed(null);
             javax.swing.JOptionPane.showMessageDialog(this, "Data hewan berhasil ditambahkan!");

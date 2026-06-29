@@ -102,7 +102,7 @@ public class Transaction extends javax.swing.JFrame {
     
     try {
         java.sql.Connection conn = pawpals.Koneksi.getKoneksi();
-        String sql = "SELECT h.id_hewan, h.nama_hewan, h.jenis_hewan " +
+        String sql = "SELECT h.id_hewan, h.nama_hewan, h.jenis " +
                      "FROM transaksi t JOIN hewan h ON t.id_hewan = h.id_hewan " +
                      "WHERE t.id_adopter = ? AND t.status_transaksi = 'Disetujui'";
         
