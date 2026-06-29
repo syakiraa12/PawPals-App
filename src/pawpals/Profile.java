@@ -17,12 +17,21 @@ public class Profile extends javax.swing.JFrame {
     /**
      * Creates new form Profile
      */
+     public Profile() {
+        initComponents();
+
+        this.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
+        this.setResizable(false);
+    }
+
+    // Constructor dengan parameter
     public Profile(String idAdopter) {
         initComponents();
         this.currentIdAdopter = idAdopter;
         
         this.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
         this.setResizable(false);
+    
     }
 
     /**
@@ -55,6 +64,11 @@ public class Profile extends javax.swing.JFrame {
      */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+    public void run() {
+        new Profile().setVisible(true);
+    }
+});
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
@@ -72,7 +86,7 @@ public class Profile extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new Profile("").setVisible(true));
+    
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

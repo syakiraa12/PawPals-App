@@ -11,7 +11,7 @@ package pawpals;
 public class Transaction extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Transaction.class.getName());
-
+    private javax.swing.JTable tblPeliharaan;
     private String currentIdAdopter;
     private int idHewanDipilih;
     
@@ -23,6 +23,9 @@ public class Transaction extends javax.swing.JFrame {
         
         this.currentIdAdopter = idAdopter;
         this.idHewanDipilih = idHewan;
+        aksiNavigasi();
+    tampilkanRiwayatTransaksi();
+    tampilkanPeliharaanSaya();
         if (namaHewan.equals("")) {
             txtNamaHewan.setText("- Silakan Pilih di Pet List -");
         } else {
@@ -91,6 +94,38 @@ public class Transaction extends javax.swing.JFrame {
             System.out.println("Gagal memuat riwayat transaksi: " + e.getMessage());
         }
     }
+    public void tampilkanPeliharaanSaya() {
+    javax.swing.table.DefaultTableModel model = new javax.swing.table.DefaultTableModel(
+        new Object[][] {},
+        new String[] {"ID", "Nama Hewan", "Jenis"}
+    );
+    // Asumsikan Anda punya tabel bernama tblPeliharaan di form Anda
+    // tblPeliharaan.setModel(model); 
+
+    try {
+        java.sql.Connection conn = pawpals.Koneksi.getKoneksi();
+        String sql = "SELECT h.id_hewan, h.nama_hewan, h.jenis_hewan " +
+                     "FROM transaksi t JOIN hewan h ON t.id_hewan = h.id_hewan " +
+                     "WHERE t.id_adopter = ? AND t.status_transaksi = 'Disetujui'";
+        
+        java.sql.PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setInt(1, Integer.parseInt(currentIdAdopter));
+        java.sql.ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            model.addRow(new Object[]{
+                rs.getInt("id_hewan"),
+                rs.getString("nama_hewan"),
+                rs.getString("jenis_hewan")
+            });
+        }
+        rs.close();
+        ps.close();
+        conn.close();
+    } catch (Exception e) {
+        System.out.println("Gagal memuat peliharaan: " + e.getMessage());
+    }
+}
     
     private void aksiNavigasi() {
         lblDb.setCursor(java.awt.Cursor.getPredefinedCursor(java.awt.Cursor.HAND_CURSOR));
