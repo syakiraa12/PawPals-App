@@ -23,59 +23,65 @@ public class Profile extends javax.swing.JFrame {
     /**
      * Creates new form Profile
      */
-    public Profile(String idAdopter) {
+     public Profile(String idAdopter) {
         initComponents();
         this.currentIdAdopter = idAdopter;
-    
+
         this.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
         this.setResizable(false);
-    
-           // PANGGIL FUNGSI LOAD DATA DI SINI
+        
         loadProfileData();
+        
+        imgLog.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                imgLogMouseClicked(evt);
+            }
+        });
     }
     
     private void loadProfileData() {
-    // Validasi jika id_adopter kosong (belum login / passing parameter salah)
-    if (currentIdAdopter == null || currentIdAdopter.isEmpty()) {
+        if (currentIdAdopter == null || currentIdAdopter.isEmpty()) {
             JOptionPane.showMessageDialog(this, "ID Adopter tidak ditemukan! Silakan login ulang.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-    String query = "SELECT * FROM adopter WHERE id_adopter = ?";
-    
-    try (Connection conn = Koneksi.getKoneksi(); 
-         PreparedStatement ps = conn.prepareStatement(query)) {
+        String query = "SELECT nama, username, no_hp, alamat FROM adopter WHERE id_adopter = ?";
         
-        ps.setString(1, currentIdAdopter);
-        
-        try (ResultSet rs = ps.executeQuery()) {
-            if (rs.next()) {
-                // Ambil data dari kolom SQL
-                String nama = rs.getString("nama");
-                String username = rs.getString("username");
-                String noHp = rs.getString("no_hp");
-                String alamat = rs.getString("alamat");
-                
-                // Set data ke komponen GUI Swing
-                txtName.setText(nama);
-                txtUsn.setText(username);
-                txtNomor.setText(noHp);
-                txtAlamat.setText(alamat);
-                
-                // Catatan: Kolom email & tanggal bergabung tidak ada di tabel 'adopter' sql kamu,
-                // jadi sementara dikosongkan atau diisi default text.
-                txtEmail.setText("- (Tidak ada di database)");
-                txtTanggal.setText("- (Tidak ada di database)");
-                
-                // Mengubah label "Admin" di bawah nama menjadi "Adopter" karena ini halaman profil adopter
-                jLabel3.setText("Adopter");
-            } else {
-                JOptionPane.showMessageDialog(this, "Data adopter tidak ditemukan di database.", "Peringatan", JOptionPane.WARNING_MESSAGE);
+        try (Connection conn = Koneksi.getKoneksi(); 
+             PreparedStatement ps = conn.prepareStatement(query)) {
+            
+            ps.setString(1, currentIdAdopter);
+            
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    String nama = rs.getString("nama");
+                    String username = rs.getString("username");
+                    String noHp = rs.getString("no_hp");
+                    String alamat = rs.getString("alamat");
+                    
+                    txtName.setText(nama);        
+                    txtFullNm.setText(nama);     
+                    txtUsn.setText(username);     
+                    txtNomor.setText(noHp);       
+                    txtAlamat.setText(alamat);  
+                    
+                    jLabel3.setText("Adopter");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Data adopter tidak ditemukan di database.", "Peringatan", JOptionPane.WARNING_MESSAGE);
+                }
             }
+        } catch (SQLException e) {
+            logger.log(java.util.logging.Level.SEVERE, "Gagal memuat data profil", e);
+            JOptionPane.showMessageDialog(this, "Gagal terhubung ke database: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-    } catch (SQLException e) {
-        logger.log(java.util.logging.Level.SEVERE, "Gagal memuat data profil", e);
-        JOptionPane.showMessageDialog(this, "Gagal terhubung ke database: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
+    
+    private void imgLogMouseClicked(java.awt.event.MouseEvent evt) {                                    
+    int konfirmasi = javax.swing.JOptionPane.showConfirmDialog(this, "Apakah Anda yakin ingin keluar?", "Konfirmasi Logout", javax.swing.JOptionPane.YES_NO_OPTION);
+    if (konfirmasi == javax.swing.JOptionPane.YES_OPTION) {
+        new LoginUser().setVisible(true);
+        this.dispose();
     }
 }
 
@@ -102,11 +108,9 @@ public class Profile extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        txtEmail = new javax.swing.JTextField();
+        txtFullNm = new javax.swing.JTextField();
         txtNomor = new javax.swing.JTextField();
-        txtTanggal = new javax.swing.JTextField();
         txtAlamat = new javax.swing.JTextField();
         imgLog = new javax.swing.JLabel();
 
@@ -121,12 +125,12 @@ public class Profile extends javax.swing.JFrame {
         txtName.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         txtName.setForeground(new java.awt.Color(47, 64, 80));
         txtName.setText("name");
-        jPanel1.add(txtName, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 190, 70, 35));
+        jPanel1.add(txtName, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 190, 110, 35));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 2, 13)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(219, 152, 52));
-        jLabel3.setText("Admin");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 230, 40, 20));
+        jLabel3.setText("Role");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(114, 230, 50, 20));
 
         btnDashboard.setText("Dashboard");
         btnDashboard.addActionListener(this::btnDashboardActionPerformed);
@@ -137,6 +141,7 @@ public class Profile extends javax.swing.JFrame {
         jPanel1.add(btnProfile, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 365, 240, 45));
 
         btnTransaksi.setText("Transaksi");
+        btnTransaksi.addActionListener(this::btnTransaksiActionPerformed);
         jPanel1.add(btnTransaksi, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 420, 240, 45));
 
         txtDadi.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -161,22 +166,17 @@ public class Profile extends javax.swing.JFrame {
         jLabel4.setText("Username");
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel6.setText("Email Adress");
+        jLabel6.setText("Full Name");
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel7.setText("Nomor Telepon");
 
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel8.setText("Tanggal Bergabung");
-
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel9.setText("Alamat Rumah");
 
-        txtEmail.addActionListener(this::txtEmailActionPerformed);
+        txtFullNm.addActionListener(this::txtFullNmActionPerformed);
 
         txtNomor.addActionListener(this::txtNomorActionPerformed);
-
-        txtTanggal.addActionListener(this::txtTanggalActionPerformed);
 
         txtAlamat.addActionListener(this::txtAlamatActionPerformed);
 
@@ -191,15 +191,13 @@ public class Profile extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtDadi)
-                    .addComponent(jLabel8)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(txtNomor, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel6)
                         .addComponent(txtUsn, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel4)
-                        .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtFullNm, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel7))
-                    .addComponent(txtTanggal, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9)
                     .addComponent(txtAlamat, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(50, Short.MAX_VALUE))
@@ -222,20 +220,16 @@ public class Profile extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtFullNm, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtNomor, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel8)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtTanggal, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtAlamat, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 153, Short.MAX_VALUE)
                 .addComponent(imgLog)
                 .addGap(21, 21, 21))
         );
@@ -274,53 +268,34 @@ public class Profile extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnDashboardActionPerformed
 
-    private void btnTransaksiActionPerformed(java.awt.event.ActionEvent evt) {                                             
-        // MEMBUKA HALAMAN TRANSAKSI (PETLIST) DENGAN MEMBAWA ID ADOPTER
-        PetList transaksiForm = new PetList(currentIdAdopter);
-        transaksiForm.setVisible(true);
-        this.dispose();
-    }
-    
     private void txtUsnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsnActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtUsnActionPerformed
 
-    private void txtEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailActionPerformed
+    private void txtFullNmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFullNmActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtEmailActionPerformed
+    }//GEN-LAST:event_txtFullNmActionPerformed
 
     private void txtNomorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomorActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNomorActionPerformed
 
-    private void txtTanggalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTanggalActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtTanggalActionPerformed
-
     private void txtAlamatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAlamatActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtAlamatActionPerformed
 
+    private void btnTransaksiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransaksiActionPerformed
+        // TODO add your handling code here:
+        PetList transaksiForm = new PetList(currentIdAdopter);
+        transaksiForm.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnTransaksiActionPerformed
+
     /**
      * @param args the command line arguments
      */
+    
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -332,8 +307,11 @@ public class Profile extends javax.swing.JFrame {
             logger.log(java.util.logging.Level.SEVERE, null, ex);
         }
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new Profile("").setVisible(true));
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Profile("").setVisible(true);
+            }
+        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -346,17 +324,15 @@ public class Profile extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JTextField txtAlamat;
     private javax.swing.JLabel txtDadi;
-    private javax.swing.JTextField txtEmail;
+    private javax.swing.JTextField txtFullNm;
     private javax.swing.JLabel txtName;
     private javax.swing.JTextField txtNomor;
-    private javax.swing.JTextField txtTanggal;
     private javax.swing.JTextField txtUsn;
     // End of variables declaration//GEN-END:variables
 }

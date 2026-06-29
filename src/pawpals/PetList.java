@@ -104,6 +104,11 @@ public class PetList extends javax.swing.JFrame {
         lblIcon.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         lblIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pawpals/image/5.png"))); // NOI18N
         lblIcon.setText("Profile");
+        lblIcon.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblIconMouseClicked(evt);
+            }
+        });
         jPanel1.add(lblIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(1050, 50, 190, -1));
 
         imgLog.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pawpals/image/log.png"))); // NOI18N
@@ -184,6 +189,10 @@ public class PetList extends javax.swing.JFrame {
         // TODO add your handling code here:
         cariDanFilterHewan();
     }//GEN-LAST:event_cbStatusActionPerformed
+
+    private void lblIconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblIconMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lblIconMouseClicked
 
     private void aksiNavigasi() {
         lblIcon.addMouseListener(new java.awt.event.MouseAdapter() {

@@ -5,6 +5,13 @@
 package pawpals;
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
+import java.awt.Component;
+import java.awt.Image;
+import java.io.File;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 
 /**
  *
@@ -12,54 +19,50 @@ import java.sql.*;
  */
 public class Kelola extends javax.swing.JFrame {
     
+    private String pathFoto = "";
+    private String currentIdAdopter = "";
+             
+    class ImageRenderer extends DefaultTableCellRenderer {
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value,
+            boolean isSelected, boolean hasFocus, int row, int column) {
+                super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+        
+            if (value instanceof ImageIcon) {
+                setIcon((ImageIcon) value);
+                setText("");
+                setHorizontalAlignment(JLabel.CENTER);
+            } else {
+                setIcon(null);
+            }
+            return this;
+        }
+    }
+    
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Kelola.class.getName());
-
     /**
      * Creates new form Kelola
      */
 
     public Kelola() {
-   initComponents();
-    loadData();
-tblHewan.addMouseListener(new java.awt.event.MouseAdapter() {
-    public void mouseClicked(java.awt.event.MouseEvent evt) {
-        int row = tblHewan.getSelectedRow();
-        if (row != -1) {
+        this.setType(java.awt.Window.Type.UTILITY);
+        initComponents();
+        this.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
+        this.setResizable(false);
+        loadData();
+    }
     
-            txtPemeliharaan.setText(tblHewan.getValueAt(row, 0).toString());
-            txtUmur.setText(tblHewan.getValueAt(row, 1).toString());
-            txtStatus.setText(tblHewan.getValueAt(row, 3).toString());
-        }
+    /**
+     * Overloaded Constructor untuk membawa parameter ID Adopter dari halaman sebelumnya
+     */
+    public Kelola(String idAdopter) {
+        this.currentIdAdopter = idAdopter;
+        this.setType(java.awt.Window.Type.UTILITY);
+        initComponents();
+        this.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
+        this.setResizable(false);
+        loadData();
     }
-});
-    // Tambahkan ini agar field bisa diedit
-    txtIdHewan.setEnabled(true);
-    txtPemeliharaan.setEnabled(true);
-    txtUmur.setEnabled(true);
-    txtPemilik.setEnabled(true);
-    txtStatus.setEnabled(true);
-}
-
-private void loadData() {
-    DefaultTableModel model = (DefaultTableModel) tblHewan.getModel();
-    model.setRowCount(0);
-    try {
-        String sql = "SELECT * FROM hewan";
-        Statement st = Koneksi.getKoneksi().createStatement();
-        ResultSet rs = st.executeQuery(sql);
-        while (rs.next()) {
-            model.addRow(new Object[]{
-                rs.getString("nama_peliharaan"), 
-                rs.getInt("umur"), 
-                rs.getString("jenis_hewan"), 
-                rs.getString("status_kesehatan")
-            });
-        }
-    } catch (Exception e) {
-        System.out.println("Error load data: " + e.getMessage());
-    }
-}
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -73,8 +76,6 @@ private void loadData() {
         jLabel4 = new javax.swing.JLabel();
         image2 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        txtProfile = new javax.swing.JLabel();
-        txtKelola = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
@@ -82,7 +83,7 @@ private void loadData() {
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
-        cbJenis = new javax.swing.JComboBox<>();
+        cbJenisKelamin = new javax.swing.JComboBox<>();
         btnTambah = new javax.swing.JButton();
         btnUbah = new javax.swing.JButton();
         btnHapus = new javax.swing.JButton();
@@ -91,20 +92,23 @@ private void loadData() {
         txtDasboard = new javax.swing.JLabel();
         txtTransaksi = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
+        txtProfile = new javax.swing.JLabel();
+        txtKelola = new javax.swing.JLabel();
         txtUmur = new javax.swing.JTextField();
         txtIdHewan = new javax.swing.JTextField();
-        txtPemeliharaan = new javax.swing.JTextField();
         txtStatus = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblHewan = new javax.swing.JTable();
         imgLog = new javax.swing.JLabel();
         txtPemilik = new javax.swing.JTextField();
+        txtPemeliharaan1 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1280, 720));
 
         jPanel1.setBackground(new java.awt.Color(255, 204, 153));
         jPanel1.setFont(new java.awt.Font("Arial", 2, 15)); // NOI18N
+        jPanel1.setPreferredSize(new java.awt.Dimension(1270, 720));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel4.setFont(new java.awt.Font("Cooper Black", 1, 30)); // NOI18N
@@ -116,14 +120,6 @@ private void loadData() {
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pawpals/image/PAWPALS.png"))); // NOI18N
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(769, 0, 486, 139));
-
-        txtProfile.setFont(new java.awt.Font("Arial", 2, 18)); // NOI18N
-        txtProfile.setText("Profile Akun");
-        jPanel1.add(txtProfile, new org.netbeans.lib.awtextra.AbsoluteConstraints(58, 244, -1, -1));
-
-        txtKelola.setFont(new java.awt.Font("Arial", 2, 18)); // NOI18N
-        txtKelola.setText("Kelola Peliharaan");
-        jPanel1.add(txtKelola, new org.netbeans.lib.awtextra.AbsoluteConstraints(58, 336, -1, -1));
 
         jLabel7.setFont(new java.awt.Font("Serif", 1, 24)); // NOI18N
         jLabel7.setText("Kelola Data Peliharaan ( Pet List )");
@@ -153,40 +149,76 @@ private void loadData() {
         jLabel13.setText("Status Kesehatan");
         jPanel1.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 230, -1, -1));
 
-        cbJenis.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        cbJenis.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Semua", "Kucing", "Anjing" }));
-        cbJenis.addActionListener(this::cbJenisActionPerformed);
-        jPanel1.add(cbJenis, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 190, 180, -1));
+        cbJenisKelamin.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cbJenisKelamin.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Semua", "Kucing", "Anjing" }));
+        cbJenisKelamin.addActionListener(this::cbJenisKelaminActionPerformed);
+        jPanel1.add(cbJenisKelamin, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 190, 180, -1));
 
         btnTambah.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         btnTambah.setText("Tambah");
+        btnTambah.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnTambahMouseClicked(evt);
+            }
+        });
         btnTambah.addActionListener(this::btnTambahActionPerformed);
-        jPanel1.add(btnTambah, new org.netbeans.lib.awtextra.AbsoluteConstraints(837, 359, -1, -1));
+        jPanel1.add(btnTambah, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 320, -1, -1));
 
         btnUbah.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         btnUbah.setText("Ubah");
+        btnUbah.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnUbahMouseClicked(evt);
+            }
+        });
         btnUbah.addActionListener(this::btnUbahActionPerformed);
-        jPanel1.add(btnUbah, new org.netbeans.lib.awtextra.AbsoluteConstraints(957, 359, -1, -1));
+        jPanel1.add(btnUbah, new org.netbeans.lib.awtextra.AbsoluteConstraints(960, 320, -1, -1));
 
         btnHapus.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         btnHapus.setText("Hapus");
         btnHapus.addActionListener(this::btnHapusActionPerformed);
-        jPanel1.add(btnHapus, new org.netbeans.lib.awtextra.AbsoluteConstraints(1073, 359, -1, -1));
+        jPanel1.add(btnHapus, new org.netbeans.lib.awtextra.AbsoluteConstraints(1080, 320, -1, -1));
 
         btnClear.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         btnClear.setText("Clear");
         btnClear.addActionListener(this::btnClearActionPerformed);
-        jPanel1.add(btnClear, new org.netbeans.lib.awtextra.AbsoluteConstraints(1183, 359, -1, -1));
+        jPanel1.add(btnClear, new org.netbeans.lib.awtextra.AbsoluteConstraints(1190, 320, -1, -1));
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
-        txtDasboard.setFont(new java.awt.Font("Arial", 2, 18)); // NOI18N
+        txtDasboard.setFont(new java.awt.Font("Arial", 3, 18)); // NOI18N
         txtDasboard.setText("Dashboard");
+        txtDasboard.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtDasboardMouseClicked(evt);
+            }
+        });
 
-        txtTransaksi.setFont(new java.awt.Font("Arial", 2, 18)); // NOI18N
+        txtTransaksi.setFont(new java.awt.Font("Arial", 3, 18)); // NOI18N
         txtTransaksi.setText("Transaksi");
+        txtTransaksi.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtTransaksiMouseClicked(evt);
+            }
+        });
 
         jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pawpals/image/ajg.png"))); // NOI18N
+
+        txtProfile.setFont(new java.awt.Font("Arial", 3, 18)); // NOI18N
+        txtProfile.setText("Profile Akun");
+        txtProfile.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtProfileMouseClicked(evt);
+            }
+        });
+
+        txtKelola.setFont(new java.awt.Font("Arial", 3, 18)); // NOI18N
+        txtKelola.setText("Kelola Peliharaan");
+        txtKelola.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtKelolaMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -195,214 +227,364 @@ private void loadData() {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(57, 57, 57)
+                        .addGap(54, 54, 54)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtTransaksi, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtDasboard)))
+                            .addComponent(txtKelola)
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(txtProfile)
+                                .addComponent(txtDasboard))))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(37, 37, 37)
-                        .addComponent(jLabel14)))
-                .addContainerGap(83, Short.MAX_VALUE))
+                        .addGap(62, 62, 62)
+                        .addComponent(txtTransaksi, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel14))
+                .addContainerGap(118, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(159, 159, 159)
+                .addGap(204, 204, 204)
                 .addComponent(txtDasboard)
-                .addGap(237, 237, 237)
-                .addComponent(txtTransaksi)
                 .addGap(18, 18, 18)
+                .addComponent(txtProfile)
+                .addGap(18, 18, 18)
+                .addComponent(txtKelola, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(txtTransaksi)
+                .addGap(85, 85, 85)
                 .addComponent(jLabel14)
-                .addGap(0, 62, Short.MAX_VALUE))
+                .addContainerGap(89, Short.MAX_VALUE))
         );
 
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 320, 820));
 
-        txtUmur.setEditable(false);
         txtUmur.setAutoscrolls(false);
-        txtUmur.setEnabled(false);
-        txtUmur.setFocusable(false);
-        txtUmur.setRequestFocusEnabled(false);
-        txtUmur.setVerifyInputWhenFocusTarget(false);
         txtUmur.addActionListener(this::txtUmurActionPerformed);
         jPanel1.add(txtUmur, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 270, 180, 30));
 
-        txtIdHewan.setEditable(false);
         txtIdHewan.setAutoscrolls(false);
-        txtIdHewan.setEnabled(false);
-        txtIdHewan.setFocusable(false);
-        txtIdHewan.setRequestFocusEnabled(false);
-        txtIdHewan.setVerifyInputWhenFocusTarget(false);
         jPanel1.add(txtIdHewan, new org.netbeans.lib.awtextra.AbsoluteConstraints(361, 194, 180, 30));
 
-        txtPemeliharaan.setEditable(false);
-        txtPemeliharaan.setAutoscrolls(false);
-        txtPemeliharaan.setEnabled(false);
-        txtPemeliharaan.setFocusable(false);
-        txtPemeliharaan.setRequestFocusEnabled(false);
-        txtPemeliharaan.setVerifyInputWhenFocusTarget(false);
-        txtPemeliharaan.addActionListener(this::txtPemeliharaanActionPerformed);
-        jPanel1.add(txtPemeliharaan, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 190, 180, 30));
-
-        txtStatus.setEditable(false);
         txtStatus.setAutoscrolls(false);
-        txtStatus.setEnabled(false);
-        txtStatus.setFocusable(false);
-        txtStatus.setRequestFocusEnabled(false);
-        txtStatus.setVerifyInputWhenFocusTarget(false);
         txtStatus.addActionListener(this::txtStatusActionPerformed);
+        txtStatus.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtStatusKeyPressed(evt);
+            }
+        });
         jPanel1.add(txtStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 270, 180, 30));
 
         tblHewan.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         tblHewan.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Nama Hewan", "Umur", "Jenis Kelamin", "Riwayat Kesehatan"
+                "Foto", "Nama Hewan", "Umur", "Jenis Kelamin", "Riwayat Kesehatan"
             }
         ));
+        tblHewan.setAlignmentX(2.5F);
+        tblHewan.setAlignmentY(2.5F);
+        tblHewan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblHewanMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblHewan);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 390, 920, 320));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 360, 940, 260));
 
         imgLog.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pawpals/image/log.png"))); // NOI18N
-        jPanel1.add(imgLog, new org.netbeans.lib.awtextra.AbsoluteConstraints(1190, 740, -1, -1));
+        imgLog.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                imgLogMouseClicked(evt);
+            }
+        });
+        jPanel1.add(imgLog, new org.netbeans.lib.awtextra.AbsoluteConstraints(1160, 630, -1, -1));
 
-        txtPemilik.setEditable(false);
         txtPemilik.setAutoscrolls(false);
-        txtPemilik.setEnabled(false);
-        txtPemilik.setFocusable(false);
-        txtPemilik.setRequestFocusEnabled(false);
-        txtPemilik.setVerifyInputWhenFocusTarget(false);
         txtPemilik.addActionListener(this::txtPemilikActionPerformed);
         jPanel1.add(txtPemilik, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 270, 180, 30));
+
+        txtPemeliharaan1.setAutoscrolls(false);
+        txtPemeliharaan1.addActionListener(this::txtPemeliharaan1ActionPerformed);
+        txtPemeliharaan1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtPemeliharaan1KeyPressed(evt);
+            }
+        });
+        jPanel1.add(txtPemeliharaan1, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 190, 180, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(0, 0, 0)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1281, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 733, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void cbJenisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbJenisActionPerformed
+    private void cbJenisKelaminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbJenisKelaminActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cbJenisActionPerformed
+    }//GEN-LAST:event_cbJenisKelaminActionPerformed
 
     private void btnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahActionPerformed
-        // TODO add your handling code here:
+        // TODO add your handling code here:                                      
         try {
-        String sql = "INSERT INTO hewan (nama_peliharaan, jenis_hewan, umur, nama_pemilik, status_kesehatan) VALUES (?, ?, ?, ?, ?)";
-        PreparedStatement ps = Koneksi.getKoneksi().prepareStatement(sql);
-        ps.setString(1, txtPemeliharaan.getText()); // Nama Peliharaan
-        ps.setString(2, cbJenis.getSelectedItem().toString());
-        ps.setInt(3, Integer.parseInt(txtUmur.getText()));
-        ps.setString(4, txtPemilik.getText());
-        ps.setString(5, txtStatus.getText());
-        ps.executeUpdate();
-        loadData(); // Refresh tabel
-        try {
-    int umur = Integer.parseInt(txtUmur.getText());
-    // ... lanjutkan proses insert
-} catch (NumberFormatException e) {
-    javax.swing.JOptionPane.showMessageDialog(this, "Umur harus berupa angka!");
-}
-        javax.swing.JOptionPane.showMessageDialog(this, "Data berhasil ditambah!");
-    } catch (Exception e) {
-        javax.swing.JOptionPane.showMessageDialog(this, "Gagal: " + e.getMessage());
+            String sql = "INSERT INTO hewan (nama_hewan, jenis, umur, jenis_kelamin, kondisi_kesehatan, foto_hewan, status_adopsi) VALUES (?, ?, ?, ?, ?, ?, 'Belum Diadopsi')";
+            PreparedStatement ps = Koneksi.getKoneksi().prepareStatement(sql);
         
-    }
+            ps.setString(1, txtPemeliharaan1.getText());
+            ps.setString(2, cbJenisKelamin.getSelectedItem().toString());
+            ps.setInt(3, Integer.parseInt(txtUmur.getText()));
+            ps.setString(4, "Jantan"); 
+            ps.setString(5, txtStatus.getText());
+            ps.setString(6, pathFoto);
+        
+            ps.executeUpdate();
+            loadData();
+            btnClearActionPerformed(null);
+            javax.swing.JOptionPane.showMessageDialog(this, "Data hewan berhasil ditambahkan!");
+        
+            ps.close();
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Gagal menambahkan data: " + e.getMessage());
+        }
     }//GEN-LAST:event_btnTambahActionPerformed
 
     private void btnUbahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUbahActionPerformed
         // TODO add your handling code here:
         try {
-        String sql = "UPDATE hewan SET nama_peliharaan=?, jenis_hewan=?, umur=?, nama_pemilik=?, status_kesehatan=? WHERE id_hewan=?";
-        java.sql.PreparedStatement ps = Koneksi.getKoneksi().prepareStatement(sql);
-        ps.setString(1, txtPemeliharaan.getText());
-        ps.setString(2, cbJenis.getSelectedItem().toString());
-        ps.setString(3, txtUmur.getText());
-        ps.setString(4, txtPemilik.getText());
-        ps.setString(5, txtStatus.getText());
-        ps.setString(6, txtIdHewan.getText()); // Menggunakan ID untuk update
-        ps.executeUpdate();
-        loadData();
-        javax.swing.JOptionPane.showMessageDialog(this, "Data berhasil diubah!");
-    } catch (Exception e) {
-        javax.swing.JOptionPane.showMessageDialog(this, "Gagal ubah: " + e.getMessage());
-    }
+            String sql = "UPDATE hewan SET nama_hewan=?, jenis=?, umur=?, kondisi_kesehatan=?, foto_hewan=? WHERE id_hewan=?";
+            PreparedStatement ps = Koneksi.getKoneksi().prepareStatement(sql);
+        
+            ps.setString(1, txtPemeliharaan1.getText());
+            ps.setString(2, cbJenisKelamin.getSelectedItem().toString());
+            ps.setInt(3, Integer.parseInt(txtUmur.getText()));
+            ps.setString(4, txtStatus.getText()); 
+            ps.setString(5, pathFoto);
+            ps.setInt(6, Integer.parseInt(txtIdHewan.getText())); 
+        
+            ps.executeUpdate();
+            loadData();
+            btnClearActionPerformed(null);
+            javax.swing.JOptionPane.showMessageDialog(this, "Data berhasil diubah!");
+        
+            ps.close();
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Gagal mengubah data: " + e.getMessage());
+        }
     }//GEN-LAST:event_btnUbahActionPerformed
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
         // TODO add your handling code here:
         txtIdHewan.setText("");
-    txtPemeliharaan.setText("");
-    txtUmur.setText("");
-    txtPemilik.setText("");
-    txtStatus.setText("");
-    cbJenis.setSelectedIndex(0);
+        txtPemeliharaan1.setText("");
+        txtUmur.setText("");
+        txtPemilik.setText("");
+        txtStatus.setText("");
+        cbJenisKelamin.setSelectedIndex(0);
+        pathFoto = ""; 
+        txtIdHewan.setEditable(true); 
     }//GEN-LAST:event_btnClearActionPerformed
 
     private void txtUmurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUmurActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtUmurActionPerformed
   
-    private void txtStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtStatusActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtStatusActionPerformed
-
     private void txtPemilikActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPemilikActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPemilikActionPerformed
 
-    private void txtPemeliharaanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPemeliharaanActionPerformed
+    private void txtStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtStatusActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtPemeliharaanActionPerformed
+    }//GEN-LAST:event_txtStatusActionPerformed
 
     private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
         // TODO add your handling code here:                                       
-    if (txtIdHewan.getText().equals("")) {
-        javax.swing.JOptionPane.showMessageDialog(this, "Silakan pilih data yang ingin dihapus!");
-        return;
-    }
+        if (txtIdHewan.getText().isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Pilih data yang ingin dihapus dari tabel!");
+            return;
+        }
 
-    int ok = javax.swing.JOptionPane.showConfirmDialog(this, "Apakah Anda yakin ingin menghapus data ini?", "Konfirmasi", javax.swing.JOptionPane.YES_NO_OPTION);
+        int konfirmasi = javax.swing.JOptionPane.showConfirmDialog(this, "Apakah Anda yakin ingin menghapus data ini?", "Konfirmasi", javax.swing.JOptionPane.YES_NO_OPTION);
     
-    if (ok == 0) {
-        try {
-            String sql = "DELETE FROM hewan WHERE id_hewan=?";
-            java.sql.PreparedStatement ps = Koneksi.getKoneksi().prepareStatement(sql);
-            ps.setString(1, txtIdHewan.getText());
-            ps.executeUpdate();
+        if (konfirmasi == javax.swing.JOptionPane.YES_OPTION) {
+            try {
+                String sql = "DELETE FROM hewan WHERE id_hewan = ?";
+                PreparedStatement ps = Koneksi.getKoneksi().prepareStatement(sql);
+                ps.setInt(1, Integer.parseInt(txtIdHewan.getText()));
+                ps.executeUpdate();
             
-            loadData();
-            btnClearActionPerformed(evt);
-            javax.swing.JOptionPane.showMessageDialog(this, "Data berhasil dihapus!");
-        } catch (Exception e) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Gagal hapus: " + e.getMessage());
+                loadData();
+                btnClearActionPerformed(null);
+                javax.swing.JOptionPane.showMessageDialog(this, "Data berhasil dihapus!");
+                
+                ps.close();
+            } catch (Exception e) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Gagal hapus: " + e.getMessage());
             }
-        } 
+        }
     }//GEN-LAST:event_btnHapusActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    private void txtDasboardMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtDasboardMouseClicked
+        // TODO add your handling code here:
+        Dashboard dashboard = new Dashboard();
+        dashboard.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_txtDasboardMouseClicked
+
+    private void txtProfileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtProfileMouseClicked
+        // TODO add your handling code here:
+        Profile pf = new Profile(currentIdAdopter);
+        pf.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_txtProfileMouseClicked
+
+    private void txtTransaksiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtTransaksiMouseClicked
+        // TODO add your handling code here:                                    
+        int row = tblHewan.getSelectedRow();
+        if (row == -1) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Silakan pilih hewan di tabel terlebih dahulu!");
+            return;
+        }
+    
+        if (txtIdHewan.getText().isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(this, "ID Hewan belum terisi!");
+            return;
+        }
+
+        String idAdopter = currentIdAdopter; 
+        int idHewan = Integer.parseInt(txtIdHewan.getText());
+        String nama = "Admin";
+    
+        new Transaction(idAdopter, idHewan, nama).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_txtTransaksiMouseClicked
+
+    private void txtKelolaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtKelolaMouseClicked
+        // TODO add your handling code here:
+        loadData();
+    }//GEN-LAST:event_txtKelolaMouseClicked
+
+    private void txtStatusKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtStatusKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtStatusKeyPressed
+
+    private void tblHewanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblHewanMouseClicked
+        // TODO add your handling code here:                
+        int row = tblHewan.getSelectedRow();
+        if (row != -1) {
+            try {
+                String namaHewan = tblHewan.getValueAt(row, 1).toString();
+                Connection conn = Koneksi.getKoneksi();
+                String sql = "SELECT * FROM hewan WHERE nama_hewan = ? AND umur = ?";
+                PreparedStatement ps = conn.prepareStatement(sql);
+                ps.setString(1, namaHewan);
+                ps.setInt(2, Integer.parseInt(tblHewan.getValueAt(row, 2).toString()));
+            
+                ResultSet rs = ps.executeQuery();
+                if(rs.next()) {
+                    txtIdHewan.setText(String.valueOf(rs.getInt("id_hewan")));
+                    txtPemeliharaan1.setText(rs.getString("nama_hewan"));
+                    txtUmur.setText(String.valueOf(rs.getInt("umur")));
+                    cbJenisKelamin.setSelectedItem(rs.getString("jenis"));
+                    txtStatus.setText(rs.getString("kondisi_kesehatan"));
+                    pathFoto = rs.getString("foto_hewan");
+                    txtPemilik.setText(rs.getString("status_adopsi")); 
+                    txtIdHewan.setEditable(false); 
+                }
+                rs.close();
+                ps.close();
+                conn.close();
+            } catch(Exception e) {
+                txtPemeliharaan1.setText(tblHewan.getValueAt(row, 1).toString()); 
+                txtUmur.setText(tblHewan.getValueAt(row, 2).toString()); 
+                cbJenisKelamin.setSelectedItem(tblHewan.getValueAt(row, 3).toString());        
+                txtStatus.setText(tblHewan.getValueAt(row, 4).toString());
+            }
+        }
+    }//GEN-LAST:event_tblHewanMouseClicked
+
+    private void imgLogMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imgLogMouseClicked
+        // TODO add your handling code here:
+        int konfirmasi = javax.swing.JOptionPane.showConfirmDialog(this, "Apakah Anda yakin ingin keluar?", "Konfirmasi Logout", javax.swing.JOptionPane.YES_NO_OPTION);
+        if (konfirmasi == javax.swing.JOptionPane.YES_OPTION) {
+            new LoginUser().setVisible(true);
+            this.dispose();
+        }
+    }//GEN-LAST:event_imgLogMouseClicked
+
+    private void btnUbahMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUbahMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnUbahMouseClicked
+
+    private void btnTambahMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTambahMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnTambahMouseClicked
+
+    private void txtPemeliharaan1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPemeliharaan1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPemeliharaan1ActionPerformed
+
+    private void txtPemeliharaan1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPemeliharaan1KeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPemeliharaan1KeyPressed
+
+    private void loadData() {
+        DefaultTableModel model = (DefaultTableModel) tblHewan.getModel();
+        model.setRowCount(0);
+        tblHewan.getColumnModel().getColumn(0).setCellRenderer(new ImageRenderer());
+        tblHewan.setRowHeight(60);
+
+        try {
+            String sql = "SELECT * FROM hewan";
+            Statement st = Koneksi.getKoneksi().createStatement();
+            ResultSet rs = st.executeQuery(sql);
+
+            while (rs.next()) {
+                String path = rs.getString("foto_hewan");
+                ImageIcon icon = null;
+            
+            if (path != null && !path.isEmpty()) {
+                File imgFile = new File(path);
+                if (imgFile.exists()) {
+                    icon = new ImageIcon(new ImageIcon(path).getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH));
+                } else {
+                    java.net.URL imgURL = getClass().getResource("/pawpals/image/" + path);
+                    if (imgURL != null) {
+                        icon = new ImageIcon(new ImageIcon(imgURL).getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH));
+                    }
+                }
+            }
+
+            model.addRow(new Object[]{
+                icon,
+                rs.getString("nama_hewan"),
+                rs.getInt("umur"),
+                rs.getString("jenis"),
+                rs.getString("kondisi_kesehatan")
+            });
+        }
+            rs.close();
+            st.close();
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Error memuat tabel: " + e.getMessage());
+        }
+    }
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -420,9 +602,20 @@ private void loadData() {
             logger.log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(Kelola.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new Kelola().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> {
+            new Kelola().setVisible(true);
+        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -430,7 +623,7 @@ private void loadData() {
     private javax.swing.JButton btnHapus;
     private javax.swing.JButton btnTambah;
     private javax.swing.JButton btnUbah;
-    private javax.swing.JComboBox<String> cbJenis;
+    private javax.swing.JComboBox<String> cbJenisKelamin;
     private javax.swing.JLabel image2;
     private javax.swing.JLabel imgLog;
     private javax.swing.JLabel jLabel10;
@@ -450,7 +643,7 @@ private void loadData() {
     private javax.swing.JLabel txtDasboard;
     private javax.swing.JTextField txtIdHewan;
     private javax.swing.JLabel txtKelola;
-    private javax.swing.JTextField txtPemeliharaan;
+    private javax.swing.JTextField txtPemeliharaan1;
     private javax.swing.JTextField txtPemilik;
     private javax.swing.JLabel txtProfile;
     private javax.swing.JTextField txtStatus;

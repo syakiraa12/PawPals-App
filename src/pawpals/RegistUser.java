@@ -16,6 +16,9 @@ public class RegistUser extends javax.swing.JFrame {
      * Creates new form RegistUser
      */
     public RegistUser() {
+        this.setType(java.awt.Window.Type.UTILITY);
+        initComponents();
+        this.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
         this.setResizable(false);
         initComponents();
         this.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
