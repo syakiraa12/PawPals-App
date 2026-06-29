@@ -99,9 +99,7 @@ public class Transaction extends javax.swing.JFrame {
         new Object[][] {},
         new String[] {"ID", "Nama Hewan", "Jenis"}
     );
-    // Asumsikan Anda punya tabel bernama tblPeliharaan di form Anda
-    // tblPeliharaan.setModel(model); 
-
+    
     try {
         java.sql.Connection conn = pawpals.Koneksi.getKoneksi();
         String sql = "SELECT h.id_hewan, h.nama_hewan, h.jenis_hewan " +
@@ -199,7 +197,6 @@ public class Transaction extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1280, 720));
-        setPreferredSize(new java.awt.Dimension(1280, 810));
 
         jScrollPane3.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane3.setToolTipText("");
@@ -227,6 +224,11 @@ public class Transaction extends javax.swing.JFrame {
         lblIcon.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         lblIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pawpals/image/5.png"))); // NOI18N
         lblIcon.setText("Profile");
+        lblIcon.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblIconMouseClicked(evt);
+            }
+        });
 
         jPanel2.setBackground(new java.awt.Color(0, 0, 255));
 
@@ -451,6 +453,10 @@ public class Transaction extends javax.swing.JFrame {
             javax.swing.JOptionPane.showMessageDialog(this, "Gagal mengirim pengajuan: " + e.getMessage());
         }
     }//GEN-LAST:event_btnAjukanActionPerformed
+
+    private void lblIconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblIconMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lblIconMouseClicked
 
     /**
      * @param args the command line arguments
