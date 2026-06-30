@@ -663,11 +663,11 @@ public class Kelola extends javax.swing.JFrame {
         try {
             String sql =
                 "SELECT h.id_hewan, h.nama_hewan, h.umur, h.jenis_kelamin, " +
-                "h.kondisi_kesehatan, h.foto_hewan, a.nama AS nama_adopter, t.status_transaksi " +
-                "FROM transaksi t " +
-                "JOIN hewan h ON t.id_hewan = h.id_hewan " +
-                "JOIN adopter a ON t.id_adopter = a.id_adopter " +
-                "WHERE t.status_transaksi='Menunggu Verifikasi'";
+                "h.kondisi_kesehatan, h.foto_hewan, a.nama AS nama_adopter, " +
+                "COALESCE(t.status_transaksi, 'Belum Diadopsi') AS status_transaksi " +
+                "FROM hewan h " +
+                "LEFT JOIN transaksi t ON h.id_hewan = t.id_hewan " +
+                "LEFT JOIN adopter a ON t.id_adopter = a.id_adopter";
             Statement st = Koneksi.getKoneksi().createStatement();
             ResultSet rs = st.executeQuery(sql);
 
