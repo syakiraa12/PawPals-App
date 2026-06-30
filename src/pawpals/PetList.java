@@ -86,12 +86,12 @@ public class PetList extends javax.swing.JFrame {
         jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 40, 170, 70));
 
         lblDb.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        lblDb.setForeground(new java.awt.Color(0, 0, 255));
         lblDb.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pawpals/image/j.png"))); // NOI18N
         lblDb.setText("Dashboard");
         jPanel1.add(lblDb, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 50, 180, 50));
 
         lblPetList.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lblPetList.setForeground(new java.awt.Color(0, 0, 255));
         lblPetList.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pawpals/image/3.png"))); // NOI18N
         lblPetList.setText("Pet list ");
         jPanel1.add(lblPetList, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 50, 170, 50));

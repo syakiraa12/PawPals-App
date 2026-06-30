@@ -99,7 +99,6 @@ public class Profile extends javax.swing.JFrame {
         txtName = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         btnDashboard = new javax.swing.JButton();
-        btnProfile = new javax.swing.JButton();
         btnTransaksi = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         txtDadi = new javax.swing.JLabel();
@@ -136,17 +135,14 @@ public class Profile extends javax.swing.JFrame {
         btnDashboard.addActionListener(this::btnDashboardActionPerformed);
         jPanel1.add(btnDashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 310, 240, 45));
 
-        btnProfile.setText("Profile Akun");
-        btnProfile.addActionListener(this::btnProfileActionPerformed);
-        jPanel1.add(btnProfile, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 365, 240, 45));
-
         btnTransaksi.setText("Transaksi");
         btnTransaksi.addActionListener(this::btnTransaksiActionPerformed);
-        jPanel1.add(btnTransaksi, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 420, 240, 45));
+        jPanel1.add(btnTransaksi, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 380, 240, 45));
 
         txtDadi.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         txtDadi.setText("Informasi Data Diri");
 
+        txtUsn.setEditable(false);
         txtUsn.addActionListener(this::txtUsnActionPerformed);
 
         jPanel3.setBackground(new java.awt.Color(255, 153, 0));
@@ -174,10 +170,13 @@ public class Profile extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel9.setText("Alamat Rumah");
 
+        txtFullNm.setEditable(false);
         txtFullNm.addActionListener(this::txtFullNmActionPerformed);
 
+        txtNomor.setEditable(false);
         txtNomor.addActionListener(this::txtNomorActionPerformed);
 
+        txtAlamat.setEditable(false);
         txtAlamat.addActionListener(this::txtAlamatActionPerformed);
 
         imgLog.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pawpals/image/log.png"))); // NOI18N
@@ -256,11 +255,6 @@ public class Profile extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProfileActionPerformed
-        // TODO add your handling code here:
-        loadProfileData();
-    }//GEN-LAST:event_btnProfileActionPerformed
-
     private void btnDashboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDashboardActionPerformed
         // TODO add your handling code here:
         Dashboard dashboardForm = new Dashboard(currentIdAdopter);
@@ -316,7 +310,6 @@ public class Profile extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDashboard;
-    private javax.swing.JButton btnProfile;
     private javax.swing.JButton btnTransaksi;
     private javax.swing.JLabel imgLog;
     private javax.swing.JLabel jLabel1;

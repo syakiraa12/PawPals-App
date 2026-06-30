@@ -1,12 +1,17 @@
 package pawpals;
 
+/***
+ * 
+ * @author Syakira
+ * Inheritance
+ */
 public class Dog extends Pet implements PetAction {
 
     private String ras;
 
     // Constructor
     public Dog(String nama, int umur, String jenis, String ras) {
-        super(nama, umur, jenis);
+        super(nama, umur, jenis); //super
         this.ras = ras;
     }
 

@@ -1,5 +1,10 @@
 package pawpals;
 
+/***
+ * 
+ * @author Syakira
+ * INTERFACE
+ */
 public interface PetAction {
 
     // Method abstrak

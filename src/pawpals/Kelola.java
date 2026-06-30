@@ -4,6 +4,7 @@
  */
 package pawpals;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.JOptionPane;
 import java.sql.*;
 import java.awt.Component;
 import java.awt.Image;
@@ -21,6 +22,7 @@ public class Kelola extends javax.swing.JFrame {
     
     private String pathFoto = "";
     private String currentIdAdopter = "";
+    private int idAdopterDipilih = 0;
              
     class ImageRenderer extends DefaultTableCellRenderer {
         @Override
@@ -47,6 +49,9 @@ public class Kelola extends javax.swing.JFrame {
     public Kelola() {
         this.setType(java.awt.Window.Type.UTILITY);
         initComponents();
+        
+        tblHewan.setDefaultEditor(Object.class, null); 
+        
         this.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
         this.setResizable(false);
         loadData();
@@ -59,6 +64,9 @@ public class Kelola extends javax.swing.JFrame {
         this.currentIdAdopter = idAdopter;
         this.setType(java.awt.Window.Type.UTILITY);
         initComponents();
+        
+        tblHewan.setDefaultEditor(Object.class, null);
+        
         this.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
         this.setResizable(false);
         loadData();
@@ -83,7 +91,7 @@ public class Kelola extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
-        cbJenisKelamin = new javax.swing.JComboBox<>();
+        cbJenis = new javax.swing.JComboBox<>();
         btnTambah = new javax.swing.JButton();
         btnUbah = new javax.swing.JButton();
         btnHapus = new javax.swing.JButton();
@@ -100,8 +108,9 @@ public class Kelola extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblHewan = new javax.swing.JTable();
         imgLog = new javax.swing.JLabel();
-        txtPemilik = new javax.swing.JTextField();
+        txtStatusAdp = new javax.swing.JTextField();
         txtPemeliharaan1 = new javax.swing.JTextField();
+        btnVrf = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1280, 720));
@@ -138,7 +147,7 @@ public class Kelola extends javax.swing.JFrame {
         jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 150, -1, 38));
 
         jLabel11.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jLabel11.setText("Nama Pemilik");
+        jLabel11.setText("Status");
         jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 240, -1, -1));
 
         jLabel12.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
@@ -147,12 +156,12 @@ public class Kelola extends javax.swing.JFrame {
 
         jLabel13.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel13.setText("Status Kesehatan");
-        jPanel1.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 230, -1, -1));
+        jPanel1.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 240, -1, -1));
 
-        cbJenisKelamin.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        cbJenisKelamin.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Semua", "Kucing", "Anjing" }));
-        cbJenisKelamin.addActionListener(this::cbJenisKelaminActionPerformed);
-        jPanel1.add(cbJenisKelamin, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 190, 180, -1));
+        cbJenis.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cbJenis.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Semua", "Kucing", "Anjing" }));
+        cbJenis.addActionListener(this::cbJenisActionPerformed);
+        jPanel1.add(cbJenis, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 190, 180, -1));
 
         btnTambah.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         btnTambah.setText("Tambah");
@@ -276,13 +285,13 @@ public class Kelola extends javax.swing.JFrame {
         tblHewan.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         tblHewan.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Foto", "Nama Hewan", "Umur", "Jenis Kelamin", "Riwayat Kesehatan"
+                "ID", "Foto", "Nama Hewan", "Nama Adopter", "Umur", "Jenis Kelamin", "Riwayat Kesehatan", "Status Pengajuan"
             }
         ));
         tblHewan.setAlignmentX(2.5F);
@@ -304,9 +313,9 @@ public class Kelola extends javax.swing.JFrame {
         });
         jPanel1.add(imgLog, new org.netbeans.lib.awtextra.AbsoluteConstraints(1160, 630, -1, -1));
 
-        txtPemilik.setAutoscrolls(false);
-        txtPemilik.addActionListener(this::txtPemilikActionPerformed);
-        jPanel1.add(txtPemilik, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 270, 180, 30));
+        txtStatusAdp.setAutoscrolls(false);
+        txtStatusAdp.addActionListener(this::txtStatusAdpActionPerformed);
+        jPanel1.add(txtStatusAdp, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 270, 180, 30));
 
         txtPemeliharaan1.setAutoscrolls(false);
         txtPemeliharaan1.addActionListener(this::txtPemeliharaan1ActionPerformed);
@@ -316,6 +325,11 @@ public class Kelola extends javax.swing.JFrame {
             }
         });
         jPanel1.add(txtPemeliharaan1, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 190, 180, 30));
+
+        btnVrf.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnVrf.setText("Verifikasi");
+        btnVrf.addActionListener(this::btnVrfActionPerformed);
+        jPanel1.add(btnVrf, new org.netbeans.lib.awtextra.AbsoluteConstraints(1070, 190, -1, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -336,9 +350,9 @@ public class Kelola extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void cbJenisKelaminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbJenisKelaminActionPerformed
+    private void cbJenisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbJenisActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cbJenisKelaminActionPerformed
+    }//GEN-LAST:event_cbJenisActionPerformed
 
     private void btnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahActionPerformed
         // TODO add your handling code here:                                      
@@ -347,7 +361,7 @@ public class Kelola extends javax.swing.JFrame {
             PreparedStatement ps = Koneksi.getKoneksi().prepareStatement(sql);
         
             ps.setString(1, txtPemeliharaan1.getText());
-            ps.setString(2, cbJenisKelamin.getSelectedItem().toString());
+            ps.setString(2, cbJenis.getSelectedItem().toString());
             ps.setInt(3, Integer.parseInt(txtUmur.getText()));
             ps.setString(4, "Jantan"); 
             ps.setString(5, txtStatus.getText());
@@ -356,7 +370,7 @@ public class Kelola extends javax.swing.JFrame {
             ps.executeUpdate();
             
             Pet pet;
-            if (cbJenisKelamin.getSelectedItem().toString().equals("Anjing")) {
+            if (cbJenis.getSelectedItem().toString().equals("Anjing")) {
             pet = new Dog(
                 txtPemeliharaan1.getText(),
                 Integer.parseInt(txtUmur.getText()),
@@ -371,11 +385,11 @@ public class Kelola extends javax.swing.JFrame {
             }
             
             pet.tampilInfo();
-            if (pet instanceof Dog) {
-                Dog dog = (Dog) pet;
+            if (pet instanceof Dog) { //instanceof
+                Dog dog = (Dog) pet; //casting
                 dog.makan();
-            } else if (pet instanceof Cat) {
-                Cat cat = (Cat) pet;
+            } else if (pet instanceof Cat) { //instanceof
+                Cat cat = (Cat) pet; //casting
                 cat.tidur();
             }
             loadData();
@@ -395,7 +409,7 @@ public class Kelola extends javax.swing.JFrame {
             PreparedStatement ps = Koneksi.getKoneksi().prepareStatement(sql);
         
             ps.setString(1, txtPemeliharaan1.getText());
-            ps.setString(2, cbJenisKelamin.getSelectedItem().toString());
+            ps.setString(2, cbJenis.getSelectedItem().toString());
             ps.setInt(3, Integer.parseInt(txtUmur.getText()));
             ps.setString(4, txtStatus.getText()); 
             ps.setString(5, pathFoto);
@@ -417,9 +431,9 @@ public class Kelola extends javax.swing.JFrame {
         txtIdHewan.setText("");
         txtPemeliharaan1.setText("");
         txtUmur.setText("");
-        txtPemilik.setText("");
+        txtStatusAdp.setText("");
         txtStatus.setText("");
-        cbJenisKelamin.setSelectedIndex(0);
+        cbJenis.setSelectedIndex(0);
         pathFoto = ""; 
         txtIdHewan.setEditable(true); 
     }//GEN-LAST:event_btnClearActionPerformed
@@ -428,9 +442,9 @@ public class Kelola extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtUmurActionPerformed
   
-    private void txtPemilikActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPemilikActionPerformed
+    private void txtStatusAdpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtStatusAdpActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtPemilikActionPerformed
+    }//GEN-LAST:event_txtStatusAdpActionPerformed
 
     private void txtStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtStatusActionPerformed
         // TODO add your handling code here:
@@ -511,33 +525,32 @@ public class Kelola extends javax.swing.JFrame {
         // TODO add your handling code here:                
         int row = tblHewan.getSelectedRow();
         if (row != -1) {
+
+            txtIdHewan.setText(tblHewan.getValueAt(row, 0).toString());
+            txtPemeliharaan1.setText(tblHewan.getValueAt(row, 2).toString());
+            txtStatusAdp.setText(tblHewan.getValueAt(row, 7).toString());
+            txtUmur.setText(tblHewan.getValueAt(row, 4).toString());
+            txtStatus.setText(tblHewan.getValueAt(row, 6).toString());
+            txtIdHewan.setEditable(false);
+        
             try {
-                String namaHewan = tblHewan.getValueAt(row, 1).toString();
                 Connection conn = Koneksi.getKoneksi();
-                String sql = "SELECT * FROM hewan WHERE nama_hewan = ? AND umur = ?";
+
+                String sql = "SELECT jenis, foto_hewan FROM hewan WHERE id_hewan=?";
                 PreparedStatement ps = conn.prepareStatement(sql);
-                ps.setString(1, namaHewan);
-                ps.setInt(2, Integer.parseInt(tblHewan.getValueAt(row, 2).toString()));
-            
+                ps.setInt(1, Integer.parseInt(txtIdHewan.getText()));
+
                 ResultSet rs = ps.executeQuery();
-                if(rs.next()) {
-                    txtIdHewan.setText(String.valueOf(rs.getInt("id_hewan")));
-                    txtPemeliharaan1.setText(rs.getString("nama_hewan"));
-                    txtUmur.setText(String.valueOf(rs.getInt("umur")));
-                    cbJenisKelamin.setSelectedItem(rs.getString("jenis"));
-                    txtStatus.setText(rs.getString("kondisi_kesehatan"));
+
+                if (rs.next()) {
+                    cbJenis.setSelectedItem(rs.getString("jenis"));
                     pathFoto = rs.getString("foto_hewan");
-                    txtPemilik.setText(rs.getString("status_adopsi")); 
-                    txtIdHewan.setEditable(false); 
                 }
                 rs.close();
                 ps.close();
                 conn.close();
-            } catch(Exception e) {
-                txtPemeliharaan1.setText(tblHewan.getValueAt(row, 1).toString()); 
-                txtUmur.setText(tblHewan.getValueAt(row, 2).toString()); 
-                cbJenisKelamin.setSelectedItem(tblHewan.getValueAt(row, 3).toString());        
-                txtStatus.setText(tblHewan.getValueAt(row, 4).toString());
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, e.getMessage());
             }
         }
     }//GEN-LAST:event_tblHewanMouseClicked
@@ -567,14 +580,94 @@ public class Kelola extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPemeliharaan1KeyPressed
 
+    private void btnVrfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVrfActionPerformed
+        // TODO add your handling code here:
+        if (txtIdHewan.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Pilih hewan terlebih dahulu!");
+            return;
+        }
+        try {
+            Connection conn = Koneksi.getKoneksi();
+            int idHewan = Integer.parseInt(txtIdHewan.getText());
+
+            PreparedStatement psCari = conn.prepareStatement("SELECT id_adopter FROM transaksi WHERE id_hewan=? AND status_transaksi='Menunggu Verifikasi'");
+            psCari.setInt(1, idHewan);
+            ResultSet rs = psCari.executeQuery();
+
+            if (!rs.next()) {
+                JOptionPane.showMessageDialog(this, "Belum ada pengajuan adopsi untuk hewan ini.");
+                return;
+            }
+
+            int idAdopter = rs.getInt("id_adopter");
+
+            PreparedStatement psHewan = conn.prepareStatement("SELECT nama_hewan FROM hewan WHERE id_hewan=?");
+            psHewan.setInt(1, idHewan);
+            ResultSet rsHewan = psHewan.executeQuery();
+            String namaHewan = "";
+            if (rsHewan.next()) namaHewan = rsHewan.getString("nama_hewan");
+
+            PreparedStatement psAdopter = conn.prepareStatement("SELECT nama FROM adopter WHERE id_adopter=?");
+            psAdopter.setInt(1, idAdopter);
+            ResultSet rsAdopter = psAdopter.executeQuery();
+            String namaAdopter = "";
+            if (rsAdopter.next()) namaAdopter = rsAdopter.getString("nama");
+
+            PreparedStatement psInsert = conn.prepareStatement("INSERT INTO adopsi (id_hewan,id_adopter,nama_hewan,nama_adopter) VALUES (?,?,?,?)");
+            psInsert.setInt(1, idHewan);
+            psInsert.setInt(2, idAdopter);
+            psInsert.setString(3, namaHewan);
+            psInsert.setString(4, namaAdopter);
+            psInsert.executeUpdate();
+
+            PreparedStatement psUpdate1 = conn.prepareStatement("UPDATE transaksi SET status_transaksi='Disetujui' WHERE id_hewan=? AND id_adopter=?");
+            psUpdate1.setInt(1, idHewan);
+            psUpdate1.setInt(2, idAdopter);
+            psUpdate1.executeUpdate();
+            
+            PreparedStatement psUpdateLain = conn.prepareStatement("UPDATE transaksi SET status_transaksi='Ditolak' WHERE id_hewan=? AND id_adopter<>?");
+            psUpdateLain.setInt(1, idHewan);
+            psUpdateLain.setInt(2, idAdopter);
+            psUpdateLain.executeUpdate();
+
+            PreparedStatement psUpdate2 = conn.prepareStatement("UPDATE hewan SET status_adopsi='Sudah Diadopsi' WHERE id_hewan=?");
+            psUpdate2.setInt(1, idHewan);
+            psUpdate2.executeUpdate();
+
+            JOptionPane.showMessageDialog(this, "Adopsi berhasil diverifikasi!");
+            loadData();
+            btnClearActionPerformed(null);
+
+            rs.close();
+            rsHewan.close();
+            rsAdopter.close();
+            psCari.close();
+            psHewan.close();
+            psAdopter.close();
+            psInsert.close();
+            psUpdate1.close();
+            psUpdate2.close();
+            psUpdateLain.close();
+            conn.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }//GEN-LAST:event_btnVrfActionPerformed
+
     private void loadData() {
         DefaultTableModel model = (DefaultTableModel) tblHewan.getModel();
         model.setRowCount(0);
-        tblHewan.getColumnModel().getColumn(0).setCellRenderer(new ImageRenderer());
+        tblHewan.getColumnModel().getColumn(1).setCellRenderer(new ImageRenderer());
         tblHewan.setRowHeight(60);
 
         try {
-            String sql = "SELECT * FROM hewan";
+            String sql =
+                "SELECT h.id_hewan, h.nama_hewan, h.umur, h.jenis_kelamin, " +
+                "h.kondisi_kesehatan, h.foto_hewan, a.nama AS nama_adopter, t.status_transaksi " +
+                "FROM transaksi t " +
+                "JOIN hewan h ON t.id_hewan = h.id_hewan " +
+                "JOIN adopter a ON t.id_adopter = a.id_adopter " +
+                "WHERE t.status_transaksi='Menunggu Verifikasi'";
             Statement st = Koneksi.getKoneksi().createStatement();
             ResultSet rs = st.executeQuery(sql);
 
@@ -584,22 +677,24 @@ public class Kelola extends javax.swing.JFrame {
             
             if (path != null && !path.isEmpty()) {
                 File imgFile = new File(path);
-                if (imgFile.exists()) {
-                    icon = new ImageIcon(new ImageIcon(path).getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH));
+                java.net.URL imgURL = getClass().getResource("/pawpals/image/" + path);
+                if (imgURL != null) {
+                    Image img = new ImageIcon(imgURL).getImage();
+                    icon = new ImageIcon(img.getScaledInstance(50, 50, Image.SCALE_SMOOTH));
                 } else {
-                    java.net.URL imgURL = getClass().getResource("/pawpals/image/" + path);
-                    if (imgURL != null) {
-                        icon = new ImageIcon(new ImageIcon(imgURL).getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH));
-                    }
+                    System.out.println("Gambar tidak ditemukan: " + path);
                 }
             }
 
             model.addRow(new Object[]{
+                rs.getInt("id_hewan"),
                 icon,
                 rs.getString("nama_hewan"),
+                rs.getString("nama_adopter"),
                 rs.getInt("umur"),
-                rs.getString("jenis"),
-                rs.getString("kondisi_kesehatan")
+                rs.getString("jenis_kelamin"),
+                rs.getString("kondisi_kesehatan"),
+                rs.getString("status_transaksi")
             });
         }
             rs.close();
@@ -647,7 +742,8 @@ public class Kelola extends javax.swing.JFrame {
     private javax.swing.JButton btnHapus;
     private javax.swing.JButton btnTambah;
     private javax.swing.JButton btnUbah;
-    private javax.swing.JComboBox<String> cbJenisKelamin;
+    private javax.swing.JButton btnVrf;
+    private javax.swing.JComboBox<String> cbJenis;
     private javax.swing.JLabel image2;
     private javax.swing.JLabel imgLog;
     private javax.swing.JLabel jLabel10;
@@ -668,9 +764,9 @@ public class Kelola extends javax.swing.JFrame {
     private javax.swing.JTextField txtIdHewan;
     private javax.swing.JLabel txtKelola;
     private javax.swing.JTextField txtPemeliharaan1;
-    private javax.swing.JTextField txtPemilik;
     private javax.swing.JLabel txtProfile;
     private javax.swing.JTextField txtStatus;
+    private javax.swing.JTextField txtStatusAdp;
     private javax.swing.JLabel txtTransaksi;
     private javax.swing.JTextField txtUmur;
     // End of variables declaration//GEN-END:variables

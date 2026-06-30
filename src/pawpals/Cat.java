@@ -1,12 +1,17 @@
 package pawpals;
 
+/***
+ * 
+ * @author Syakira
+ * Inheritance
+ */
 public class Cat extends Pet implements PetAction {
 
     private String warnaBulu;
 
     // Constructor
     public Cat(String nama, int umur, String jenis, String warnaBulu) {
-        super(nama, umur, jenis);
+        super(nama, umur, jenis); //super
         this.warnaBulu = warnaBulu;
     }
 

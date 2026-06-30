@@ -206,7 +206,6 @@ public class Transaction extends javax.swing.JFrame {
         jPanel1.setPreferredSize(new java.awt.Dimension(1280, 810));
 
         lblDb.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        lblDb.setForeground(new java.awt.Color(0, 0, 255));
         lblDb.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pawpals/image/j.png"))); // NOI18N
         lblDb.setText("Dashboard");
 
@@ -218,6 +217,7 @@ public class Transaction extends javax.swing.JFrame {
         lblPetList.setText("Pet list ");
 
         lblTsc.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lblTsc.setForeground(new java.awt.Color(0, 0, 255));
         lblTsc.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pawpals/image/i.png"))); // NOI18N
         lblTsc.setText("Transaction");
 

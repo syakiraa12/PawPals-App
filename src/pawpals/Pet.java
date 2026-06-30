@@ -1,5 +1,10 @@
 package pawpals;
 
+/***
+ * 
+ * @author Syakira
+ * Implements
+ */
 public class Pet implements PetAction {
 
     private String nama;
@@ -44,7 +49,7 @@ public class Pet implements PetAction {
         this.jenis = jenis;
     }
 
-    // Method
+    // Method (interface) 
     public void tampilInfo() {
         System.out.println("Nama Hewan : " + nama);
         System.out.println("Umur : " + umur + " bulan");

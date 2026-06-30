@@ -20,8 +20,6 @@ public class RegistUser extends javax.swing.JFrame {
         initComponents();
         this.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
         this.setResizable(false);
-        initComponents();
-        this.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
     }
 
     /**
@@ -206,7 +204,7 @@ public class RegistUser extends javax.swing.JFrame {
         if (cbTampil.isSelected()) {
             txtPw.setEchoChar((char) 0); 
         } else {
-            txtPw.setEchoChar('*'); 
+            txtPw.setEchoChar('\u2022'); 
         }
     }//GEN-LAST:event_cbTampilActionPerformed
 

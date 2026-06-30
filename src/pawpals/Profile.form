@@ -109,19 +109,6 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="javax.swing.JButton" name="btnProfile">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Profile Akun"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnProfileActionPerformed"/>
-          </Events>
-          <Constraints>
-            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="30" y="365" width="240" height="45"/>
-            </Constraint>
-          </Constraints>
-        </Component>
         <Component class="javax.swing.JButton" name="btnTransaksi">
           <Properties>
             <Property name="text" type="java.lang.String" value="Transaksi"/>
@@ -131,7 +118,7 @@
           </Events>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="30" y="420" width="240" height="45"/>
+              <AbsoluteConstraints x="30" y="380" width="240" height="45"/>
             </Constraint>
           </Constraints>
         </Component>
@@ -210,6 +197,9 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txtUsn">
+              <Properties>
+                <Property name="editable" type="boolean" value="false"/>
+              </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtUsnActionPerformed"/>
               </Events>
@@ -267,16 +257,25 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txtFullNm">
+              <Properties>
+                <Property name="editable" type="boolean" value="false"/>
+              </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtFullNmActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="txtNomor">
+              <Properties>
+                <Property name="editable" type="boolean" value="false"/>
+              </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtNomorActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="txtAlamat">
+              <Properties>
+                <Property name="editable" type="boolean" value="false"/>
+              </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtAlamatActionPerformed"/>
               </Events>
